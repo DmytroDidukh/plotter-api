@@ -12,13 +12,8 @@ const USER_VALIDATION_ERROR_MESSAGES = {
     ACCESS_TYPE_INVALID: 'Invalid access type provided',
     USER_ID_INVALID: 'Invalid user ID',
     USERNAME_TYPE: 'Username must be a string',
-    DESCRIPTION_TYPE: 'Description must be a string',
-    CITY_TYPE: 'City must be a string',
-    HOMETOWN_TYPE: 'Hometown must be a string',
-    RELATIONSHIPS_INVALID: 'Invalid relationships provided',
     BIRTH_DATE_FORMAT: 'Birth date must be a valid ISO 8601 date',
     PROFILE_PICTURE_FORMAT: 'Profile picture must be a URL',
-    COVER_PICTURE_FORMAT: 'Cover picture must be a URL',
 };
 
 export { USER_VALIDATION_ERROR_MESSAGES };

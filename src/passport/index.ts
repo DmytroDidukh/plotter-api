@@ -26,7 +26,7 @@ function setupPassportAndSessions(
             cookie: cookieService.getConfig(),
             store: MongoStore.create({
                 clientPromise: mongoClientPromise,
-                dbName: 'social-network',
+                dbName: 'plotter',
                 collectionName: 'sessions',
                 stringify: false,
                 autoRemove: 'interval',

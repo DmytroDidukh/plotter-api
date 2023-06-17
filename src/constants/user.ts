@@ -1,11 +1,3 @@
-enum USER_RELATIONSHIPS {
-    SINGLE = 'SINGLE',
-    MARRIED = 'MARRIED',
-    DIVORCED = 'DIVORCED',
-    SEARCHING = 'SEARCHING',
-    IN_A_RELATIONSHIP = 'IN_A_RELATIONSHIP',
-}
-
 enum USER_ACCESS_TYPES {
     USER = 'USER',
     ADMIN = 'ADMIN',
@@ -19,15 +11,8 @@ enum USER_FIELDS_NAMES {
     USERNAME = 'username',
     PASSWORD = 'password',
     PASSWORD_CONFIRMATION = 'passwordConfirmation',
-    DESCRIPTION = 'description',
-    CITY = 'city',
-    HOMETOWN = 'hometown',
-    RELATIONSHIPS = 'relationships',
     BIRTH_DATE = 'birthDate',
     PROFILE_PICTURE = 'profilePicture',
-    COVER_PICTURE = 'coverPicture',
-    FOLLOWERS = 'followers',
-    FOLLOWINGS = 'followings',
     ACCESS_TYPE = 'accessType',
     EMAIL_OR_USERNAME = 'emailOrUsername',
     IS_ACTIVE = 'isActive',
@@ -35,4 +20,4 @@ enum USER_FIELDS_NAMES {
     SALT = 'salt',
 }
 
-export { USER_RELATIONSHIPS, USER_ACCESS_TYPES, USER_FIELDS_NAMES };
+export { USER_ACCESS_TYPES, USER_FIELDS_NAMES };
