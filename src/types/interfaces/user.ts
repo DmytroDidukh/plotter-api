@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { USER_ACCESS_TYPES, USER_RELATIONSHIPS } from 'constants/user';
+import { USER_ACCESS_TYPES } from 'constants/user';
 
 interface IUserShared {
     username: string;
@@ -7,15 +7,10 @@ interface IUserShared {
 }
 
 interface IUserBase extends IUserShared {
-    description?: string;
-    city?: string;
-    hometown?: string;
-    relationships?: USER_RELATIONSHIPS | null;
+    firstName?: string;
+    lastName?: string;
     birthDate?: string;
     profilePicture?: string;
-    coverPicture?: string;
-    followers?: string[];
-    followings?: string[];
     accessType?: USER_ACCESS_TYPES;
 }
 
@@ -41,15 +36,6 @@ interface ISignUpUserDto extends IUserShared {
 
 // TODO: add "email" and "username"
 interface IUpdateUserDto
-    extends Pick<
-        IUserDto,
-        | 'description'
-        | 'city'
-        | 'hometown'
-        | 'relationships'
-        | 'birthDate'
-        | 'profilePicture'
-        | 'coverPicture'
-    > {}
+    extends Pick<IUserDto, 'firstName' | 'lastName' | 'birthDate' | 'profilePicture'> {}
 
 export { IUserModel, IUserDto, ISignUpUserDto, IUpdateUserDto };

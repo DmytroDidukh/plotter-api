@@ -9,6 +9,8 @@ enum USER_FIELDS_NAMES {
     ID = 'id',
     EMAIL = 'email',
     USERNAME = 'username',
+    FIRSTNAME = 'firstName',
+    LASTNAME = 'lastName',
     PASSWORD = 'password',
     PASSWORD_CONFIRMATION = 'passwordConfirmation',
     BIRTH_DATE = 'birthDate',
