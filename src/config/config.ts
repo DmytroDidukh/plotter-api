@@ -14,6 +14,11 @@ interface ENV {
     MONGO_URI: string | undefined;
     SESSION_SECRET: string | undefined;
     COOKIE_NAME: string | undefined;
+    GOOGLE_AUTH_CLIENT_ID: string | undefined;
+    GOOGLE_AUTH_SECRET: string | undefined;
+    GOOGLE_APP_REDIRECT: string | undefined;
+    GOOGLE_AUTH_EMAIL_SCOPE: string | undefined;
+    GOOGLE_AUTH_PROFILE_SCOPE: string | undefined;
 }
 
 interface Config {
@@ -22,6 +27,11 @@ interface Config {
     MONGO_URI: string;
     SESSION_SECRET: string;
     COOKIE_NAME: string;
+    GOOGLE_AUTH_CLIENT_ID: string;
+    GOOGLE_AUTH_SECRET: string;
+    GOOGLE_APP_REDIRECT: string;
+    GOOGLE_AUTH_EMAIL_SCOPE: string;
+    GOOGLE_AUTH_PROFILE_SCOPE: string;
 }
 
 // Loading process.env as ENV interface
@@ -33,6 +43,11 @@ const getConfig = (): ENV => {
         MONGO_URI: process.env.MONGO_URI,
         SESSION_SECRET: process.env.SESSION_SECRET,
         COOKIE_NAME: process.env.COOKIE_NAME,
+        GOOGLE_AUTH_CLIENT_ID: process.env.COOKIE_NAME,
+        GOOGLE_AUTH_SECRET: process.env.COOKIE_NAME,
+        GOOGLE_APP_REDIRECT: process.env.COOKIE_NAME,
+        GOOGLE_AUTH_EMAIL_SCOPE: process.env.COOKIE_NAME,
+        GOOGLE_AUTH_PROFILE_SCOPE: process.env.COOKIE_NAME,
     };
 };
 
