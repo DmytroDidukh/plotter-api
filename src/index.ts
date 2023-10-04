@@ -30,7 +30,6 @@ app.use(rootRouter);
 
 // ERROR HANDLER
 app.use(errorHandlerMiddleware);
-// TEST COMMIT
 
 app.listen(config.PORT, () => {
     console.log(`SERVER IS STARTED ON ${config.PORT}`);
