@@ -49,8 +49,8 @@ function setupPassportAndSessions(
         new GoogleStrategy(
             {
                 clientID: config.GOOGLE_AUTH_CLIENT_ID,
-                clientSecret: config.GOOGLE_AUTH_SECRET,
-                callbackURL: config.GOOGLE_APP_REDIRECT,
+                clientSecret: config.GOOGLE_AUTH_CLIENT_SECRET,
+                callbackURL: config.GOOGLE_APP_REDIRECT_URI,
             },
             async (accessToken, refreshToken, profile, done) => {
                 console.log('GOOGLE USER: ', profile);
