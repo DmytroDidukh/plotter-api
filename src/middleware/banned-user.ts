@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { userService } from 'services/user';
+import { NextFunction, Request, Response } from 'express';
+
 import { ApiAccessDeniedError } from 'api/error';
 import { authService } from 'services/auth';
+import { userService } from 'services/user';
 import { IUserModel } from 'types/interfaces';
 
 async function bannedUserMiddleware(req: Request, res: Response, next: NextFunction) {

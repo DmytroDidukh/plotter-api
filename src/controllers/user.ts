@@ -1,8 +1,9 @@
 import { Request } from 'express';
+
 import { createController } from 'middleware/controller';
 import { userService } from 'services/user';
-import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 import { IResponseDateMessage } from 'types/interfaces';
+import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
 const controller = createController();
 

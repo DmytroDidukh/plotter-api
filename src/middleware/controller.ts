@@ -1,5 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUSES } from 'constants/error';
+
+import { NextFunction, Request, Response } from 'express';
+
 import { responseService } from 'services/response';
 
 function controllerMiddleware(routeHandler) {

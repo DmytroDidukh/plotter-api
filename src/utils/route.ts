@@ -1,5 +1,6 @@
-import { RequestHandler, Router } from 'express';
 import { HTTP_METHODS } from 'constants/common';
+
+import { RequestHandler, Router } from 'express';
 
 function wrapAsync(fn: RequestHandler): RequestHandler {
     return (req, res, next) => {

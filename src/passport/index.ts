@@ -1,17 +1,20 @@
-import mongoose from 'mongoose';
-import express from 'express';
-import passport from 'passport';
-import session from 'express-session';
-import flash from 'express-flash';
+import { USER_FIELDS_NAMES } from 'constants/user';
+
 import MongoStore from 'connect-mongo';
-import { Strategy as LocalStrategy } from 'passport-local';
+import express from 'express';
+import flash from 'express-flash';
+import session from 'express-session';
+import mongoose from 'mongoose';
+import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as LocalStrategy } from 'passport-local';
+
 import config from 'config/config';
 import { cookieService } from 'services/cookie';
-import { verifyUser } from './verify-user';
+
 import { deserializeUser } from './deserialize-user';
 import { serializeUser } from './serialize-user';
-import { USER_FIELDS_NAMES } from 'constants/user';
+import { verifyUser } from './verify-user';
 
 function setupPassportAndSessions(
     app: express.Application,

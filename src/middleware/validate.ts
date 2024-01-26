@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { validationResult, ValidationError, FieldValidationError } from 'express-validator';
+import { FieldValidationError, ValidationError, validationResult } from 'express-validator';
+
 import { ApiInvalidParamsError } from 'api/error';
 
 function isFieldValidationError(error: ValidationError): error is FieldValidationError {

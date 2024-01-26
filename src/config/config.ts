@@ -1,4 +1,5 @@
 import path from 'path';
+
 import dotenv from 'dotenv';
 
 // Parsing the env file.

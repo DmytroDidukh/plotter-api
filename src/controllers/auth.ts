@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { authService } from 'services/auth';
+
 import { createController } from 'middleware/controller';
-import { IUserDto, IResponseMessage } from 'types/interfaces';
+import { authService } from 'services/auth';
+import { IResponseMessage, IUserDto } from 'types/interfaces';
 
 const controller = createController();
 

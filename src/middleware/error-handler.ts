@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
 import { responseService } from 'services/response';
 
 // Express relies on the arity (number of parameters) of the function to determine if it's an error

@@ -1,4 +1,5 @@
 import { Response } from 'express';
+
 import config from 'config/config';
 
 interface ICookieConfig {

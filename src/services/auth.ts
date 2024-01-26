@@ -1,14 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
+
 import {
     ApiConflictError,
     ApiInvalidAuthenticationError,
     ApiSignInCredentialsError,
 } from 'api/error';
 import { userRepository } from 'repositories/user';
-import { userService } from 'services/user';
 import { passwordService } from 'services/password';
-import { ISignUpUserDto, IUserDto, IUserModel, IResponseMessage } from 'types/interfaces';
+import { userService } from 'services/user';
+import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
 async function signUp(req: Request): Promise<IUserDto> {
     const user: ISignUpUserDto = req.body;

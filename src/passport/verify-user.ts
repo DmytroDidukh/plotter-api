@@ -1,6 +1,6 @@
 import { ApiAccessDeniedError, ApiSignInCredentialsError } from 'api/error';
-import { passwordService } from 'services/password';
 import { userRepository } from 'repositories/user';
+import { passwordService } from 'services/password';
 import { userService } from 'services/user';
 
 async function verifyUser(emailOrUsername, password, done) {
