@@ -1,7 +1,9 @@
-function validateURL(value: string): boolean {
-    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+class URLUtils {
+    private static urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
 
-    return urlRegex.test(value);
+    static validateURL(value: string): boolean {
+        return this.urlRegex.test(value);
+    }
 }
 
-export { validateURL };
+export { URLUtils };

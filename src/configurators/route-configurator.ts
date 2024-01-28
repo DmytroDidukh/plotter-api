@@ -9,7 +9,7 @@ enum HTTP_METHODS {
 }
 
 class RouteConfigurator {
-    private router: Router;
+    private readonly router: Router;
 
     constructor() {
         this.router = express.Router();

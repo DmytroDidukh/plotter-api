@@ -3,7 +3,7 @@ import { body, param, ValidationChain } from 'express-validator';
 import { USER_VALIDATION_ERROR_MESSAGES } from 'consts/error';
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { createNotAllowedBodySchema } from 'middleware/validators/body-not-allowed';
-import { validateURL } from 'utils/url';
+import { URLUtils } from 'utils/url';
 
 const updateAccessTypeSchema: ValidationChain[] = [
     param(USER_FIELDS_NAMES.ID)
@@ -31,7 +31,7 @@ const updateDataSchema: ValidationChain[] = [
     body(USER_FIELDS_NAMES.PROFILE_PICTURE)
         .optional()
         .custom((value) => {
-            return value === '' || validateURL(value);
+            return value === '' || URLUtils.validateURL(value);
         })
         .withMessage(USER_VALIDATION_ERROR_MESSAGES.PROFILE_PICTURE_FORMAT),
     ...createNotAllowedBodySchema([

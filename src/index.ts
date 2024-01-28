@@ -1,14 +1,15 @@
-import express, { Express } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
 import config from 'config/config';
-import { rootRouter } from 'routes/index';
 import { setupDatabase } from 'db/index';
-import { setupPassportAndSessions } from './passport';
 import { errorHandlerMiddleware } from 'middleware/error-handler';
+import { rootRouter } from 'routes/index';
+
+import { setupPassportAndSessions } from './passport';
 
 const app: Express = express();
 const mongoClientPromise = setupDatabase();
