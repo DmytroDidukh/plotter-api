@@ -1,12 +1,13 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Express } from 'express';
+import flash from 'express-flash';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler';
 
 import config from 'config/config';
-import { passportConfigurator } from 'configurators/passport';
+import { passportConfigurator, sessionConfigurator } from 'configurators/index';
 import { setupDatabase } from 'db/index';
 import { rootRouter } from 'routes/index';
 
@@ -21,9 +22,13 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(flash());
+
+// SESSION
+sessionConfigurator.configure(app, mongoClientPromise);
 
 // PASSPORT
-passportConfigurator.setup(app, mongoClientPromise);
+passportConfigurator.configure(app);
 
 // ROUTES
 app.use(rootRouter);

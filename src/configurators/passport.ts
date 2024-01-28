@@ -1,8 +1,4 @@
-import MongoStore from 'connect-mongo';
 import express from 'express';
-import flash from 'express-flash';
-import session from 'express-session';
-import mongoose from 'mongoose';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
@@ -11,7 +7,6 @@ import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/er
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user';
-import { cookieService } from 'services/cookie';
 import { passwordService } from 'services/password';
 import { userService } from 'services/user';
 import { IUserModel } from 'types/interfaces';
@@ -19,13 +14,7 @@ import { IUserModel } from 'types/interfaces';
 class PassportConfigurator {
     constructor(private readonly userRepository: UserRepository) {}
 
-    public setup(
-        app: express.Application,
-        mongoClientPromise: Promise<mongoose.mongo.MongoClient>,
-    ): void {
-        app.use(flash());
-        this.setupSession(app, mongoClientPromise);
-
+    public configure(app: express.Application): void {
         app.use(passport.initialize());
         app.use(passport.session());
 
@@ -35,7 +24,7 @@ class PassportConfigurator {
         passport.serializeUser(this.serializeUser);
         passport.deserializeUser(this.deserializeUser);
 
-        console.log('PASSPORT AND SESSIONS SET');
+        console.log('PASSPORT SET');
     }
 
     private configureLocalStrategy(): void {
@@ -62,29 +51,6 @@ class PassportConfigurator {
                     return done(null, profile);
                 },
             ),
-        );
-    }
-
-    private setupSession(
-        app: express.Application,
-        mongoClientPromise: Promise<mongoose.mongo.MongoClient>,
-    ): void {
-        app.use(
-            session({
-                secret: config.SESSION_SECRET,
-                resave: false,
-                saveUninitialized: false,
-                name: cookieService.getName(),
-                cookie: cookieService.getConfig(),
-                store: MongoStore.create({
-                    clientPromise: mongoClientPromise,
-                    dbName: 'plotter',
-                    collectionName: 'sessions',
-                    stringify: false,
-                    autoRemove: 'interval',
-                    autoRemoveInterval: 1,
-                }),
-            }),
         );
     }
 
@@ -139,4 +105,4 @@ class PassportConfigurator {
 const userRepository = new UserRepository();
 const passportConfigurator = new PassportConfigurator(userRepository);
 
-export { passportConfigurator };
+export default passportConfigurator;
