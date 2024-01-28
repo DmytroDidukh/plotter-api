@@ -7,7 +7,7 @@ import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/er
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user';
-import { PasswordService, userService } from 'services/index';
+import { PasswordService, UserService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
 
 class PassportConfigurator {
@@ -92,7 +92,7 @@ class PassportConfigurator {
             }
 
             // TODO: Add is inactive user (deleted)
-            const isBanned = userService.checkBanStatus(user.accessType);
+            const isBanned = UserService.checkBanStatus(user.accessType);
             if (isBanned) {
                 return done(new ApiAccessDeniedError({ message: 'Current user is banned' }));
             }
@@ -106,6 +106,7 @@ class PassportConfigurator {
 
 const userRepository = new UserRepository();
 const passwordService = new PasswordService();
+
 const passportConfigurator = new PassportConfigurator(userRepository, passwordService);
 
 export default passportConfigurator;

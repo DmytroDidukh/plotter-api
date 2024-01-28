@@ -7,10 +7,11 @@ import {
 } from '@api-modules/errors';
 
 import { UserRepository } from 'repositories/user';
-import { PasswordService, userService } from 'services/index';
+import { PasswordService, UserService } from 'services/index';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
 const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
 const passwordService = new PasswordService();
 
 async function signUp(req: Request): Promise<IUserDto> {
