@@ -1,20 +1,18 @@
-import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
+
+import { HTTP_METHODS, RouteConfigurator } from 'configurators/route-configurator';
 import { userController } from 'controllers/user';
-import { userValidator } from 'middleware/validators/user-validator';
 import {
-    checkPermissionToUpdateUserAccessType,
     bannedUserMiddleware,
+    checkPermissionToUpdateUserAccessType,
     validate,
 } from 'middleware/index';
-import { registerRoute } from 'utils/route';
-import { HTTP_METHODS } from 'constants/common';
+import { userValidator } from 'middleware/validators/user-validator';
 
-const router = express.Router();
+const routeConfigurator = new RouteConfigurator();
 
 // MY PROFILE
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.GET,
     '/me',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
@@ -23,8 +21,7 @@ registerRoute(
 );
 
 // UPDATE USER
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/:id',
     ...userValidator.updateDataSchema,
@@ -35,8 +32,7 @@ registerRoute(
 );
 
 // DELETE USER
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.DELETE,
     '/:id',
     ...userValidator.deleteSchema,
@@ -47,8 +43,7 @@ registerRoute(
 );
 
 // UPDATE ACCESS TYPE
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/access-type/:id',
     ...userValidator.updateAccessTypeSchema,
@@ -57,5 +52,7 @@ registerRoute(
     checkPermissionToUpdateUserAccessType,
     userController.updateAccessType,
 );
+
+const router = routeConfigurator.getRouter();
 
 export default router;

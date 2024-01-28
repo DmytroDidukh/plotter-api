@@ -22,6 +22,7 @@
     "paths": {
       "api/*": ["src/api/*"],
       "config/*": ["src/config/*"],
+      "configurators/*": ["src/configurators/*"],
       "constants/*": ["src/constants/*"],
       "controllers/*": ["src/controllers/*"],
       "db/*": ["src/db/*"],

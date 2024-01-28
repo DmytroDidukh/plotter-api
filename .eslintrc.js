@@ -84,6 +84,11 @@ module.exports = {
                     'position': 'after'
                 },
                 {
+                    'pattern': 'configurators/**',
+                    'group': 'internal',
+                    'position': 'after'
+                },
+                {
                     'pattern': 'constants/**',
                     'group': 'internal',
                     'position': 'after'

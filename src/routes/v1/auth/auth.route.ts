@@ -1,16 +1,14 @@
-import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
-import { authValidator } from 'middleware/validators/auth-validator';
-import { authController } from 'controllers/auth';
-import { validate, bannedUserMiddleware } from 'middleware/index';
-import { registerRoute } from 'utils/route';
-import { HTTP_METHODS } from 'constants/common';
 
-const router = express.Router();
+import { HTTP_METHODS, RouteConfigurator } from 'configurators/index';
+import { authController } from 'controllers/auth';
+import { bannedUserMiddleware, validate } from 'middleware/index';
+import { authValidator } from 'middleware/validators/auth-validator';
+
+const routeConfigurator = new RouteConfigurator();
 
 // SIGN-UP
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-up',
     ...authValidator.signUpSchema,
@@ -19,8 +17,7 @@ registerRoute(
 );
 
 // SIGN-IN
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-in',
     ...authValidator.signInSchema,
@@ -29,8 +26,7 @@ registerRoute(
 );
 
 // SIGN-OUT
-registerRoute(
-    router,
+routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-out',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
@@ -39,5 +35,7 @@ registerRoute(
 );
 
 // TODO: reset password route
+
+const router = routeConfigurator.getRouter();
 
 export default router;
