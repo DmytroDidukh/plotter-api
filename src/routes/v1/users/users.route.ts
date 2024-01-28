@@ -18,7 +18,7 @@ routeConfigurator.registerRoute(
     '/me',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     bannedUserMiddleware,
-    userController.me,
+    userController.myProfile,
 );
 
 // UPDATE USER
