@@ -1,23 +1,32 @@
 import { NextFunction, Request, Response } from 'express';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { authService } from 'services/auth';
+import { UserRepository } from 'repositories/user';
+import { AuthService, PasswordService, UserService } from 'services/index';
 import { IResponseMessage, IUserDto } from 'types/interfaces';
 
 class AuthController {
+    constructor(private readonly authService: AuthService) {}
+
     async signUp(req: Request): Promise<IUserDto> {
-        return authService.signUp(req);
+        return this.authService.signUp(req);
     }
 
     async signIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
-        return authService.signIn(req, res, next);
+        return this.authService.signIn(req, res, next);
     }
 
     async signOut(req: Request): Promise<IResponseMessage> {
-        return authService.signOut(req);
+        return this.authService.signOut(req);
     }
 }
 
+const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
+const passwordService = new PasswordService();
+
+const authService = new AuthService(userRepository, userService, passwordService);
+
 export const authController = ControllerConfigurator.configure<AuthController>(
-    new AuthController(),
+    new AuthController(authService),
 );
