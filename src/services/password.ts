@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-export class PasswordService {
+class PasswordService {
     private readonly saltRounds: number;
 
     constructor(saltRounds = 12) {
@@ -20,3 +20,5 @@ export class PasswordService {
         return bcrypt.compare(password, passwordHash);
     }
 }
+
+export default PasswordService;

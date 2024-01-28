@@ -7,8 +7,7 @@ import {
 } from '@api-modules/errors';
 
 import { UserRepository } from 'repositories/user';
-import { PasswordService } from 'services/password';
-import { userService } from 'services/user';
+import { PasswordService, userService } from 'services/index';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
 const userRepository = new UserRepository();

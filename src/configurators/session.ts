@@ -3,21 +3,26 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 
-import config from 'config/config';
-import { cookieService } from 'services/cookie';
+import { CookieService } from 'services/index';
 
 class SessionConfigurator {
+    constructor(private readonly cookieService: CookieService) {}
+
     public configure(
         app: express.Application,
         mongoClientPromise: Promise<mongoose.mongo.MongoClient>,
     ): void {
+        const config = this.cookieService.getConfig();
+        const name = this.cookieService.getName();
+        const secret = this.cookieService.getSecret();
+
         app.use(
             session({
-                secret: config.SESSION_SECRET,
+                secret,
                 resave: false,
                 saveUninitialized: false,
-                name: cookieService.getName(),
-                cookie: cookieService.getConfig(),
+                name,
+                cookie: config,
                 store: MongoStore.create({
                     clientPromise: mongoClientPromise,
                     dbName: 'plotter',
@@ -29,10 +34,11 @@ class SessionConfigurator {
             }),
         );
 
-        console.log('SESSIONS SET');
+        console.log('SESSION SET');
     }
 }
 
-const sessionConfigurator = new SessionConfigurator();
+const cookieService = new CookieService();
+const sessionConfigurator = new SessionConfigurator(cookieService);
 
 export default sessionConfigurator;

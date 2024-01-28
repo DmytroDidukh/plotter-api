@@ -8,25 +8,32 @@ interface ICookieConfig {
     secure: boolean;
 }
 
-function getConfig(config?: ICookieConfig): ICookieConfig {
-    return {
+class CookieService {
+    private config: ICookieConfig = {
         maxAge: 2592000000, // 30 days
         httpOnly: true,
-        // TODO: set "secure" to true if "https" website is available
-        secure: false,
-        ...(config || {}),
+        secure: false, // TODO: set "secure" to true if "https" website is available
     };
+
+    getConfig(): ICookieConfig {
+        return this.config;
+    }
+
+    setConfig(customConfig?: ICookieConfig): void {
+        this.config = { ...this.config, ...customConfig };
+    }
+
+    getName(): string {
+        return config.COOKIE_NAME;
+    }
+
+    getSecret(): string {
+        return config.SESSION_SECRET;
+    }
+
+    setCookie(res: Response, sessionId: string): void {
+        res.cookie(this.getName(), sessionId, this.getConfig());
+    }
 }
 
-function getName(): string {
-    return config.COOKIE_NAME;
-}
-
-function setCookie(res: Response, sessionId: string, config?: ICookieConfig): void {
-    const _name = this.getName();
-    const _config = this.getConfig(config);
-
-    res.cookie(_name, sessionId, _config);
-}
-
-export const cookieService = { setCookie, getConfig, getName };
+export default CookieService;

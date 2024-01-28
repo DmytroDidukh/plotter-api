@@ -1,4 +1,4 @@
 export * from './auth';
-export * from './cookie';
-export * from './password';
+export { default as CookieService } from './cookie';
+export { default as PasswordService } from './password';
 export * from './user';

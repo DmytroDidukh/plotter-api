@@ -7,8 +7,7 @@ import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/er
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user';
-import { PasswordService } from 'services/password';
-import { userService } from 'services/user';
+import { PasswordService, userService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
 
 class PassportConfigurator {
