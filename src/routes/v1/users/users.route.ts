@@ -8,7 +8,7 @@ import {
     checkPermissionToUpdateUserAccessType,
     validate,
 } from 'middleware/index';
-import { userValidator } from 'middleware/validators/user-validator';
+import { UserValidator } from 'middleware/validators/user-validator';
 
 const routeConfigurator = new RouteConfigurator();
 
@@ -25,7 +25,7 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/:id',
-    ...userValidator.updateDataSchema,
+    ...UserValidator.updateSchema,
     validate,
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     bannedUserMiddleware,
@@ -36,7 +36,7 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.DELETE,
     '/:id',
-    ...userValidator.deleteSchema,
+    ...UserValidator.deleteSchema,
     validate,
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     bannedUserMiddleware,
@@ -47,7 +47,7 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/access-type/:id',
-    ...userValidator.updateAccessTypeSchema,
+    ...UserValidator.updateAccessTypeSchema,
     validate,
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     checkPermissionToUpdateUserAccessType,
