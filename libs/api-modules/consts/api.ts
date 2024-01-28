@@ -1,4 +1,12 @@
-enum HTTP_STATUSES {
+export enum HTTP_METHODS {
+    GET = 'get',
+    POST = 'post',
+    PUT = 'put',
+    PATCH = 'patch',
+    DELETE = 'delete',
+}
+
+export enum HTTP_STATUSES {
     SWITCHING_PROTOCOLS = 101,
     OK = 200,
     CREATED = 201,
@@ -30,4 +38,20 @@ enum HTTP_STATUSES {
     UNREACHABLE = 523,
 }
 
-export { HTTP_STATUSES };
+export enum ERROR_CODES {
+    // 400
+    INVALID_PARAMS = 400001,
+    WRONG_CREDENTIALS_ERROR = 400012,
+    // 401
+    INVALID_AUTH = 401001,
+    // 403
+    ACCESS_DENIED = 403001,
+    // 404
+    NOT_FOUND = 404001,
+    // 408
+    REQUEST_TIMEOUT = 408001,
+    // 409
+    CONFLICT = 409001,
+    // 500
+    UNKNOWN = 500001,
+}

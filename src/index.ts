@@ -3,10 +3,10 @@ import cors from 'cors';
 import express, { Express } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler';
 
 import config from 'config/config';
 import { setupDatabase } from 'db/index';
-import { errorHandlerMiddleware } from 'middleware/error-handler';
 import { rootRouter } from 'routes/index';
 
 import { setupPassportAndSessions } from './passport';

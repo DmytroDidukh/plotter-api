@@ -1,7 +1,7 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
-import { IErrorOptions } from 'types/interfaces/error';
-
+import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
+
+import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
 
 class ApiRequestTimeoutError extends ApiBaseError {
     constructor(options: IErrorOptions = {}) {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { responseService } from 'services/response';
+import { ResponseService } from '../services/response';
 
 // Express relies on the arity (number of parameters) of the function to determine if it's an error
 // handling middleware or not. If the function has four parameters, Express considers it an error
@@ -11,7 +11,7 @@ import { responseService } from 'services/response';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function errorHandlerMiddleware(err, req: Request, res: Response, next: NextFunction) {
     // TODO: customize the response based on the error ( for example, body validation and params validation)
-    responseService.sendError(res, err);
+    ResponseService.sendError(res, err);
 }
 
 export { errorHandlerMiddleware };

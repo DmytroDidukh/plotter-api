@@ -1,7 +1,12 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
-import { INotFoundErrorOptions } from 'types/interfaces/error';
-
+import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
+
+import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
+
+interface INotFoundErrorOptions extends IErrorOptions {
+    resourceName: string;
+    resourceId: string;
+}
 
 class ApiNotFoundError extends ApiBaseError {
     constructor(options: INotFoundErrorOptions) {

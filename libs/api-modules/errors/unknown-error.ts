@@ -1,15 +1,15 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
-import { IErrorOptions } from 'types/interfaces/error';
-
+import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
 
-class ApiError extends ApiBaseError {
+import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
+
+class ApiUnknownError extends ApiBaseError {
     constructor(options: IErrorOptions = {}) {
         const {
             httpStatus = HTTP_STATUSES.INTERNAL_SERVER_ERROR,
             code = ERROR_CODES.UNKNOWN,
-            type = 'Unknown Error',
-            message = 'Unknown Error',
+            type = 'Unknown',
+            message = 'Temporary issue due to an unknown internal error. Wait and retry the operation',
             innerError,
         } = options;
 
@@ -23,4 +23,4 @@ class ApiError extends ApiBaseError {
     }
 }
 
-export { ApiError };
+export { ApiUnknownError };

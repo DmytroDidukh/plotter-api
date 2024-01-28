@@ -1,11 +1,15 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
-import { IInvalidBodyErrorOptions } from 'types/interfaces/error';
-import { convertErrorsArrayToMessage } from 'utils/convert-errors-array-to-messages';
-
+import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
 
+import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
+import { ErrorFormatter } from '../utils/error-formatter';
+
+interface IInvalidParamsErrorOptions extends IErrorOptions {
+    errors: string[];
+}
+
 class ApiInvalidParamsError extends ApiBaseError {
-    constructor(options: IInvalidBodyErrorOptions) {
+    constructor(options: IInvalidParamsErrorOptions) {
         const {
             httpStatus = HTTP_STATUSES.BAD_REQUEST,
             code = ERROR_CODES.INVALID_PARAMS,
@@ -17,7 +21,7 @@ class ApiInvalidParamsError extends ApiBaseError {
             innerError,
         } = options;
 
-        const message = convertErrorsArrayToMessage(initialMessage, errors);
+        const message = ErrorFormatter.formatErrorsToMessage(initialMessage, errors);
 
         super({
             httpStatus,

@@ -1,12 +1,6 @@
 import express, { RequestHandler, Router } from 'express';
 
-enum HTTP_METHODS {
-    GET = 'get',
-    POST = 'post',
-    PUT = 'put',
-    PATCH = 'patch',
-    DELETE = 'delete',
-}
+import { HTTP_METHODS } from '../consts/api';
 
 class RouteConfigurator {
     private readonly router: Router;
@@ -35,4 +29,4 @@ class RouteConfigurator {
     }
 }
 
-export { HTTP_METHODS, RouteConfigurator };
+export { RouteConfigurator };

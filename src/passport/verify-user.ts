@@ -1,9 +1,15 @@
-import { ApiAccessDeniedError, ApiSignInCredentialsError } from 'api/error';
+import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/errors';
+
 import { userRepository } from 'repositories/user';
 import { passwordService } from 'services/password';
 import { userService } from 'services/user';
+import { IUserModel } from 'types/interfaces';
 
-async function verifyUser(emailOrUsername, password, done) {
+async function verifyUser(
+    emailOrUsername: string,
+    password: string,
+    done: (error: any, user?: IUserModel) => void,
+) {
     try {
         const user = await userRepository.getByAny({
             email: emailOrUsername,

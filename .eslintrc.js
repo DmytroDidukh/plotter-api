@@ -74,8 +74,8 @@ module.exports = {
                     'position': 'after'
                 },
                 {
-                    'pattern': 'api/**',
-                    'group': 'internal',
+                    'pattern': '@api-modules/**',
+                    'group': 'external',
                     'position': 'after'
                 },
                 {

@@ -1,6 +1,7 @@
 import connectEnsureLogin from 'connect-ensure-login';
+import { RouteConfigurator } from '@api-modules/configurators';
+import { HTTP_METHODS } from '@api-modules/consts/api';
 
-import { HTTP_METHODS, RouteConfigurator } from 'configurators/index';
 import { authController } from 'controllers/auth';
 import { bannedUserMiddleware, validate } from 'middleware/index';
 import { authValidator } from 'middleware/validators/auth-validator';

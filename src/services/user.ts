@@ -1,4 +1,5 @@
-import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
+import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
+
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { userRepository } from 'repositories/user';
 import { IResponseDateMessage } from 'types/interfaces';

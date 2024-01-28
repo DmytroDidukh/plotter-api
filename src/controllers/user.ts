@@ -1,13 +1,13 @@
 import { Request } from 'express';
+import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { createController } from 'middleware/controller';
 import { userService } from 'services/user';
 import { IResponseDateMessage } from 'types/interfaces';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
-const controller = createController();
+const controller = new ControllerConfigurator();
 
-function myProfile(req: Request): IUserDto {
+async function myProfile(req: Request): Promise<IUserDto> {
     const user = req.user as IUserModel;
 
     return userService.mapModelToDto(user);
@@ -36,8 +36,8 @@ function updateAccessType(req: Request): Promise<IUserDto> {
 }
 
 export const userController = {
-    me: controller(myProfile),
-    updateMe: controller(updateMe),
-    deleteMe: controller(deleteMe),
-    updateAccessType: controller(updateAccessType),
+    me: controller.handleAction(myProfile),
+    updateMe: controller.handleAction(updateMe),
+    deleteMe: controller.handleAction(deleteMe),
+    updateAccessType: controller.handleAction(updateAccessType),
 };

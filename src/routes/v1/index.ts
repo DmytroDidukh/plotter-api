@@ -1,7 +1,8 @@
 import express from 'express';
+import { ApiInvalidAuthenticationError } from '@api-modules/errors';
+
 import authRouter from './auth/auth.route';
 import usersRouter from './users/users.route';
-import { ApiInvalidAuthenticationError } from 'api/error';
 
 const router = express.Router();
 

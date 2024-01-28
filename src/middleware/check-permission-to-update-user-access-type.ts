@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
+import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
-import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
 import { USER_ACCESS_TYPES } from 'consts/user';
 import { userRepository } from 'repositories/user';
 import { IUserModel } from 'types/interfaces';

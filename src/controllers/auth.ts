@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { createController } from 'middleware/controller';
 import { authService } from 'services/auth';
 import { IResponseMessage, IUserDto } from 'types/interfaces';
 
-const controller = createController();
+const controller = new ControllerConfigurator();
 
 function signUp(req: Request): Promise<IUserDto> {
     return authService.signUp(req);
@@ -19,7 +19,7 @@ async function signOut(req: Request): Promise<IResponseMessage> {
 }
 
 export const authController = {
-    signUp: controller(signUp),
-    signIn: controller(signIn),
-    signOut: controller(signOut),
+    signUp: controller.handleAction(signUp),
+    signIn: controller.handleAction(signIn),
+    signOut: controller.handleAction(signOut),
 };

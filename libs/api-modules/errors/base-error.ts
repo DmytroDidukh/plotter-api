@@ -1,5 +1,12 @@
-import { ERROR_CODES } from 'consts/error';
-import { IBaseErrorOptions } from 'types/interfaces/error';
+import { ERROR_CODES } from '../consts/api';
+
+interface IBaseErrorOptions {
+    httpStatus: number;
+    message: string;
+    code: number;
+    type: string;
+    innerError?: Error;
+}
 
 class ApiBaseError extends Error {
     httpStatus: number;
@@ -29,4 +36,4 @@ class ApiBaseError extends Error {
     }
 }
 
-export { ApiBaseError };
+export { ApiBaseError, IBaseErrorOptions };

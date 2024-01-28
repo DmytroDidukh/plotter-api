@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
-
 import {
     ApiConflictError,
     ApiInvalidAuthenticationError,
     ApiSignInCredentialsError,
-} from 'api/error';
+} from '@api-modules/errors';
+
 import { userRepository } from 'repositories/user';
 import { passwordService } from 'services/password';
 import { userService } from 'services/user';

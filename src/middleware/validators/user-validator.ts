@@ -1,7 +1,6 @@
 import { body, param, ValidationChain } from 'express-validator';
 
-import { USER_VALIDATION_ERROR_MESSAGES } from 'consts/error';
-import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES, USER_VALIDATION_ERROR_MESSAGES } from 'consts/index';
 import { createNotAllowedBodySchema } from 'middleware/validators/body-not-allowed';
 import { URLUtils } from 'utils/url';
 

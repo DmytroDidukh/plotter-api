@@ -7,8 +7,8 @@
     "start": "nodemon src/index.ts",
     "check-ts": "tsc --noEmit",
     "watch": "tsc -w",
-    "lint:ts": "eslint src/**/*.ts --fix",
-    "prettier:ts": "prettier src/**/*.ts --write",
+    "lint:ts": "eslint {src,libs}/**/*.ts --fix",
+    "prettier:ts": "prettier {src,libs}/**/*.ts --write",
     "lint-staged": "lint-staged",
     "prepare": "husky"
   },
@@ -18,7 +18,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.ts": [
+    "{src,libs}/**/*.ts": [
       "prettier --write",
       "npm run lint:ts"
     ]

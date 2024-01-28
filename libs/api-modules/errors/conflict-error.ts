@@ -1,10 +1,15 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
-import { INotFoundErrorOptions } from 'types/interfaces/error';
-
+import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
 
+import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
+
+interface IConflictErrorOptions extends IErrorOptions {
+    resourceName: string;
+    resourceId: string;
+}
+
 class ApiConflictError extends ApiBaseError {
-    constructor(options: INotFoundErrorOptions) {
+    constructor(options: IConflictErrorOptions) {
         const {
             httpStatus = HTTP_STATUSES.CONFLICT,
             code = ERROR_CODES.CONFLICT,

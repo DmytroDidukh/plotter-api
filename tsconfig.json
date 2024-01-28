@@ -20,7 +20,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "paths": {
-      "api/*": ["src/api/*"],
+      "@api-modules/*": ["libs/api-modules/*"],
       "config/*": ["src/config/*"],
       "configurators/*": ["src/configurators/*"],
       "consts/*": ["src/consts/*"],
@@ -35,7 +35,7 @@
       "utils/*": ["src/utils/*"],
     }
   },
-  "include": ["src/**/*.ts", "global.d.ts"],
+  "include": ["src/**/*.ts", "libs/**/*.ts", "global.d.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register"],
