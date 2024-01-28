@@ -1,7 +1,8 @@
-import { ApiBaseError } from './base-error';
-import { HTTP_STATUSES, ERROR_CODES } from 'constants/error';
-import { convertErrorsArrayToMessage } from 'utils/convert-errors-array-to-messages';
+import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
 import { IInvalidBodyErrorOptions } from 'types/interfaces/error';
+import { convertErrorsArrayToMessage } from 'utils/convert-errors-array-to-messages';
+
+import { ApiBaseError } from './base-error';
 
 class ApiInvalidParamsError extends ApiBaseError {
     constructor(options: IInvalidBodyErrorOptions) {

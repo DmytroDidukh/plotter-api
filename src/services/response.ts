@@ -1,8 +1,8 @@
-import { HTTP_STATUSES } from 'constants/error';
-
 import { Response } from 'express';
 
 import { ApiBaseError } from 'api/error/base-error';
+
+import { HTTP_STATUSES } from '../consts/error';
 
 function sendResponse(res: Response, data: any): void {
     res.send({ data });

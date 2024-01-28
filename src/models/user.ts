@@ -1,8 +1,8 @@
-import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'constants/user';
-
 import { model, Schema } from 'mongoose';
 
 import { IUserModel } from 'types/interfaces/user';
+
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from '../consts/user';
 
 const userSchema = new Schema<IUserModel>(
     {

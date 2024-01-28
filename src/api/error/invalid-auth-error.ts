@@ -1,6 +1,7 @@
-import { ApiBaseError } from './base-error';
-import { ERROR_CODES, HTTP_STATUSES } from 'constants/error';
+import { ERROR_CODES, HTTP_STATUSES } from 'consts/error';
 import { IErrorOptions } from 'types/interfaces/error';
+
+import { ApiBaseError } from './base-error';
 
 class ApiInvalidAuthenticationError extends ApiBaseError {
     constructor(options: IErrorOptions = {}) {

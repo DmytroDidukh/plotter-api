@@ -1,4 +1,4 @@
-import { ERROR_CODES, HTTP_STATUSES } from 'constants/error';
+import { ERROR_CODES, HTTP_STATUSES } from '../../consts/error';
 
 interface IBaseErrorOptions {
     httpStatus: number;

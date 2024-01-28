@@ -1,5 +1,3 @@
-import { USER_FIELDS_NAMES } from 'constants/user';
-
 import MongoStore from 'connect-mongo';
 import express from 'express';
 import flash from 'express-flash';
@@ -15,6 +13,8 @@ import { cookieService } from 'services/cookie';
 import { deserializeUser } from './deserialize-user';
 import { serializeUser } from './serialize-user';
 import { verifyUser } from './verify-user';
+
+import { USER_FIELDS_NAMES } from '../consts/user';
 
 function setupPassportAndSessions(
     app: express.Application,

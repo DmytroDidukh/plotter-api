@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
-import { USER_ACCESS_TYPES } from 'constants/user';
+
+import { USER_ACCESS_TYPES } from '../../consts/user';
 
 interface IUserShared {
     username: string;

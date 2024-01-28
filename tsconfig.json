@@ -23,7 +23,7 @@
       "api/*": ["src/api/*"],
       "config/*": ["src/config/*"],
       "configurators/*": ["src/configurators/*"],
-      "constants/*": ["src/constants/*"],
+      "consts/*": ["src/consts/*"],
       "controllers/*": ["src/controllers/*"],
       "db/*": ["src/db/*"],
       "middleware/*": ["src/middleware/*"],

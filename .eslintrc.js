@@ -89,7 +89,7 @@ module.exports = {
                     'position': 'after'
                 },
                 {
-                    'pattern': 'constants/**',
+                    'pattern': 'consts/**',
                     'group': 'internal',
                     'position': 'after'
                 },

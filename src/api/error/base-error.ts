@@ -1,4 +1,4 @@
-import { ERROR_CODES } from 'constants/error';
+import { ERROR_CODES } from 'consts/error';
 import { IBaseErrorOptions } from 'types/interfaces/error';
 
 class ApiBaseError extends Error {

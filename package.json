@@ -8,6 +8,7 @@
     "check-ts": "tsc --noEmit",
     "watch": "tsc -w",
     "lint:ts": "eslint src/**/*.ts --fix",
+    "prettier:ts": "prettier src/**/*.ts --write",
     "lint-staged": "lint-staged",
     "prepare": "husky"
   },

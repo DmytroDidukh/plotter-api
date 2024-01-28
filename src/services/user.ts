@@ -1,9 +1,9 @@
-import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'constants/user';
-
 import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { IResponseDateMessage } from 'types/interfaces';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
+
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from '../consts/user';
 
 function mapModelToDto(user: IUserModel): IUserDto {
     return {
