@@ -1,16 +1,22 @@
 import bcrypt from 'bcrypt';
 
-async function getSalt(): Promise<string> {
-    const saltRounds = 12;
-    return bcrypt.genSaltSync(saltRounds);
-}
+export class PasswordService {
+    private readonly saltRounds: number;
 
-async function hash(password: string, salt): Promise<string> {
-    return bcrypt.hash(password, salt);
-}
+    constructor(saltRounds = 12) {
+        this.saltRounds = saltRounds;
+    }
 
-async function compare(password: string, passwordHash: string): Promise<boolean> {
-    return bcrypt.compare(password, passwordHash);
-}
+    async getSalt(): Promise<string> {
+        return bcrypt.genSalt(this.saltRounds);
+    }
 
-export const passwordService = { hash, compare, getSalt };
+    async hash(password: string): Promise<string> {
+        const salt = await this.getSalt();
+        return bcrypt.hash(password, salt);
+    }
+
+    async compare(password: string, passwordHash: string): Promise<boolean> {
+        return bcrypt.compare(password, passwordHash);
+    }
+}

@@ -7,11 +7,12 @@ import {
 } from '@api-modules/errors';
 
 import { UserRepository } from 'repositories/user';
-import { passwordService } from 'services/password';
+import { PasswordService } from 'services/password';
 import { userService } from 'services/user';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
 const userRepository = new UserRepository();
+const passwordService = new PasswordService();
 
 async function signUp(req: Request): Promise<IUserDto> {
     const user: ISignUpUserDto = req.body;
@@ -27,8 +28,8 @@ async function signUp(req: Request): Promise<IUserDto> {
         });
     }
 
+    const passwordHash = await passwordService.hash(user.password);
     const salt = await passwordService.getSalt();
-    const passwordHash = await passwordService.hash(user.password, salt);
     const newUser = await userRepository.create({
         username: user.username,
         email: user.email,

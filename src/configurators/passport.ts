@@ -7,12 +7,15 @@ import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/er
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user';
-import { passwordService } from 'services/password';
+import { PasswordService } from 'services/password';
 import { userService } from 'services/user';
 import { IUserModel } from 'types/interfaces';
 
 class PassportConfigurator {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly passwordService: PasswordService,
+    ) {}
 
     public configure(app: express.Application): void {
         app.use(passport.initialize());
@@ -84,7 +87,7 @@ class PassportConfigurator {
                 return done(new ApiSignInCredentialsError());
             }
 
-            const isValidPassword = await passwordService.compare(password, user.hash);
+            const isValidPassword = await this.passwordService.compare(password, user.hash);
             if (!isValidPassword) {
                 return done(new ApiSignInCredentialsError());
             }
@@ -103,6 +106,7 @@ class PassportConfigurator {
 }
 
 const userRepository = new UserRepository();
-const passportConfigurator = new PassportConfigurator(userRepository);
+const passwordService = new PasswordService();
+const passportConfigurator = new PassportConfigurator(userRepository, passwordService);
 
 export default passportConfigurator;
