@@ -1,10 +1,9 @@
 import { body, param, ValidationChain } from 'express-validator';
 
+import { USER_VALIDATION_ERROR_MESSAGES } from 'consts/error';
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { createNotAllowedBodySchema } from 'middleware/validators/body-not-allowed';
 import { validateURL } from 'utils/url';
-
-import { USER_VALIDATION_ERROR_MESSAGES } from '../../consts/error/messages';
-import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from '../../consts/user';
 
 const updateAccessTypeSchema: ValidationChain[] = [
     param(USER_FIELDS_NAMES.ID)

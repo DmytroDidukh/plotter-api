@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
+import { HTTP_STATUSES } from 'consts/error';
 import { responseService } from 'services/response';
-
-import { HTTP_STATUSES } from '../consts/error';
 
 function controllerMiddleware(routeHandler) {
     return async function controllerMiddleware(req: Request, res: Response, next: NextFunction) {

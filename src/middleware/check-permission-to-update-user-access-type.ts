@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
+import { USER_ACCESS_TYPES } from 'consts/user';
 import { userRepository } from 'repositories/user';
 import { IUserModel } from 'types/interfaces';
-
-import { USER_ACCESS_TYPES } from '../consts/user';
 
 // TODO: Consider moving it to userService since it used only in one place
 async function checkPermissionToUpdateUserAccessType(

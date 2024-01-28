@@ -8,13 +8,12 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 import config from 'config/config';
+import { USER_FIELDS_NAMES } from 'consts/user';
 import { cookieService } from 'services/cookie';
 
 import { deserializeUser } from './deserialize-user';
 import { serializeUser } from './serialize-user';
 import { verifyUser } from './verify-user';
-
-import { USER_FIELDS_NAMES } from '../consts/user';
 
 function setupPassportAndSessions(
     app: express.Application,

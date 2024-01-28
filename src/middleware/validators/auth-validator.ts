@@ -1,9 +1,8 @@
 import { body, ValidationChain } from 'express-validator';
 
+import { USER_VALIDATION_ERROR_MESSAGES } from 'consts/error';
+import { USER_FIELDS_NAMES } from 'consts/user';
 import { createNotAllowedBodySchema } from 'middleware/validators/body-not-allowed';
-
-import { USER_VALIDATION_ERROR_MESSAGES } from '../../consts/error/messages';
-import { USER_FIELDS_NAMES } from '../../consts/user';
 
 const signUpSchema: ValidationChain[] = [
     body(USER_FIELDS_NAMES.EMAIL).isEmail().withMessage(USER_VALIDATION_ERROR_MESSAGES.EMAIL),
