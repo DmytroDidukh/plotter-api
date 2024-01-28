@@ -6,10 +6,9 @@ import morgan from 'morgan';
 import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler';
 
 import config from 'config/config';
+import { passportConfigurator } from 'configurators/passport';
 import { setupDatabase } from 'db/index';
 import { rootRouter } from 'routes/index';
-
-import { setupPassportAndSessions } from './passport';
 
 const app: Express = express();
 const mongoClientPromise = setupDatabase();
@@ -24,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // PASSPORT
-setupPassportAndSessions(app, mongoClientPromise);
+passportConfigurator.setup(app, mongoClientPromise);
 
 // ROUTES
 app.use(rootRouter);

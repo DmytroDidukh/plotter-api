@@ -1,9 +1,11 @@
 import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
-import { userRepository } from 'repositories/user';
+import { UserRepository } from 'repositories/user';
 import { IResponseDateMessage } from 'types/interfaces';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
+
+const userRepository = new UserRepository();
 
 function mapModelToDto(user: IUserModel): IUserDto {
     return {

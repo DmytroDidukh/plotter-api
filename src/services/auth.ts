@@ -6,14 +6,16 @@ import {
     ApiSignInCredentialsError,
 } from '@api-modules/errors';
 
-import { userRepository } from 'repositories/user';
+import { UserRepository } from 'repositories/user';
 import { passwordService } from 'services/password';
 import { userService } from 'services/user';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
+const userRepository = new UserRepository();
+
 async function signUp(req: Request): Promise<IUserDto> {
     const user: ISignUpUserDto = req.body;
-    const existedUser = await userRepository.getByAny({
+    const existedUser = await userRepository.getByUsernameOrEmail({
         email: user.email,
         username: user.username,
     });
