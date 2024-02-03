@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { HTTP_STATUSES } from '../consts/api';
-import { ResponseService } from '../services/response';
+import { ResponseService } from '../services/response.service';
 
 type RouteHandler = (req: Request, res: Response, next: NextFunction) => Promise<any>;
 

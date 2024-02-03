@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ValidationChain, ValidationError, validationResult } from 'express-validator';
 import { ApiInvalidParamsError } from '@api-modules/errors';
 
-import { ValidationUtils } from 'utils/validation';
+import { ValidationUtils } from 'utils/validation.utils';
 
 /**
  * Higher-order function that accepts a validation schema and returns middleware

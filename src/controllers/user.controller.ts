@@ -2,8 +2,7 @@ import { Request } from 'express';
 import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { UserService } from 'services/index';
-import { IResponseDateMessage } from 'types/interfaces';
+import { IResponseDateMessage, UserService } from 'services/index';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()

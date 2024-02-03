@@ -1,7 +1,7 @@
 import { body, param, ValidationChain } from 'express-validator';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES, USER_VALIDATION_ERROR_MESSAGES } from 'consts/index';
-import { URLUtils } from 'utils/url';
+import { URLUtils } from 'utils/url.utils';
 
 import { Validator } from './base-validator';
 

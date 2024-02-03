@@ -5,7 +5,7 @@ import express, { Express } from 'express';
 import flash from 'express-flash';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler';
+import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler.middleware';
 
 import config from 'config/config';
 import { passportConfigurator, sessionConfigurator } from 'configurators/index';

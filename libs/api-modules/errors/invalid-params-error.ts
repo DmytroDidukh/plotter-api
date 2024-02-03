@@ -2,7 +2,7 @@ import { IErrorOptions } from './api-error';
 import { ApiBaseError } from './base-error';
 
 import { ERROR_CODES, HTTP_STATUSES } from '../consts/api';
-import { ErrorFormatter } from '../utils/error-formatter';
+import { ErrorFormatter } from '../services';
 
 interface IInvalidParamsErrorOptions extends IErrorOptions {
     errors: string[];

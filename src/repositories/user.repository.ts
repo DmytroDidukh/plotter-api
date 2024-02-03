@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 
-import { UserModel } from 'models/user';
+import { UserModel } from 'models/user.model';
 import { ISignUpUserDto, IUpdateUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()

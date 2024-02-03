@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
 import { USER_ROLES } from 'consts/user';
-import { UserRepository } from 'repositories/user';
+import { UserRepository } from 'repositories/user.repository';
 import { IUserModel } from 'types/interfaces';
 
 // TODO: Consider moving it to userService since it used only in one place

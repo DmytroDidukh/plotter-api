@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { ResponseService } from '../services/response';
+import { ResponseService } from '../services/response.service';
 
 // Express relies on the arity (number of parameters) of the function to determine if it's an error
 // handling middleware or not. If the function has four parameters, Express considers it an error

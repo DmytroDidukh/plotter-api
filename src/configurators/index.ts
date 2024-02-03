@@ -1,2 +1,2 @@
-export { default as passportConfigurator } from './passport';
-export { default as sessionConfigurator } from './session';
+export { default as passportConfigurator } from './passport.configurator';
+export { default as sessionConfigurator } from './session.configurator';

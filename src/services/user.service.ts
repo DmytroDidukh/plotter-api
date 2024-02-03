@@ -2,13 +2,17 @@ import { Service } from 'typedi';
 import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
-import { UserRepository } from 'repositories/user';
-import { IResponseDateMessage } from 'types/interfaces';
+import { UserRepository } from 'repositories/user.repository';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
 interface IVerifyAccessTypeResult {
     isAllowed: boolean;
     status: USER_ACCESS_TYPES;
+}
+
+export interface IResponseDateMessage {
+    message: string;
+    irrevocablyDeletedAt?: string;
 }
 
 @Service()

@@ -7,12 +7,16 @@ import {
     ApiSignInCredentialsError,
 } from '@api-modules/errors';
 
-import { UserRepository } from 'repositories/user';
-import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
+import { UserRepository } from 'repositories/user.repository';
+import { ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
 // It's important to import the services with relative paths due "typedi" dependency injection order
-import { PasswordService } from './password';
-import { UserService } from './user';
+import { PasswordService } from './password.service';
+import { UserService } from './user.service';
+
+export interface IResponseMessage {
+    message: string;
+}
 
 @Service()
 class AuthService {

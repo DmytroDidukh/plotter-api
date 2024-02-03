@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { AuthService } from 'services/index';
-import { IResponseMessage, IUserDto } from 'types/interfaces';
+import { AuthService, IResponseMessage } from 'services/index';
+import { IUserDto } from 'types/interfaces';
 
 @Service()
 class AuthController {
