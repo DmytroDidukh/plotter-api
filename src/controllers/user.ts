@@ -1,13 +1,15 @@
 import { Request } from 'express';
+import { Container, Inject, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { UserRepository } from 'repositories/user';
 import { UserService } from 'services/index';
 import { IResponseDateMessage } from 'types/interfaces';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
+@Service()
 class UserController {
-    constructor(private readonly userService: UserService) {}
+    @Inject()
+    private readonly userService: UserService;
 
     async myProfile(req: Request): Promise<IUserDto> {
         const user = req.user as IUserModel;
@@ -28,7 +30,7 @@ class UserController {
         const currentUserId = UserService.getIdFromModel(req.user as IUserModel);
         const targetUserId = req.params.id as string;
 
-        return userService.deleteMe(currentUserId, targetUserId);
+        return this.userService.deleteMe(currentUserId, targetUserId);
     }
 
     async updateAccessType(req: Request): Promise<IUserDto> {
@@ -39,9 +41,6 @@ class UserController {
     }
 }
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
-
 export const userController = ControllerConfigurator.configure<UserController>(
-    new UserController(userService),
+    Container.get(UserController),
 );

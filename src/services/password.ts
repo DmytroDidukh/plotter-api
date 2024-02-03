@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
+import { Service } from 'typedi';
 
+@Service()
 class PasswordService {
     private readonly saltRounds: number;
 

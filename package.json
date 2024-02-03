@@ -43,7 +43,9 @@
     "nodemon": "~2.0.21",
     "passport": "~0.6.0",
     "passport-google-oauth20": "~2.0.0",
-    "passport-local": "~1.0.0"
+    "passport-local": "~1.0.0",
+    "reflect-metadata": "~0.2.1",
+    "typedi": "~0.10.0"
   },
   "devDependencies": {
     "@types/body-parser": "~1.19.2",

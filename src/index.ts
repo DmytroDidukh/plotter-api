@@ -1,3 +1,4 @@
+import 'reflect-metadata'; // Should be imported before any other imports
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Express } from 'express';

@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { Service } from 'typedi';
 
 import config from 'config/config';
 
@@ -8,6 +9,7 @@ interface ICookieConfig {
     secure: boolean;
 }
 
+@Service()
 class CookieService {
     private config: ICookieConfig = {
         maxAge: 2592000000, // 30 days

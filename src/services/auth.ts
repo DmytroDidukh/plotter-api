@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
+import { Inject, Service } from 'typedi';
 import {
     ApiConflictError,
     ApiInvalidAuthenticationError,
@@ -10,12 +11,16 @@ import { UserRepository } from 'repositories/user';
 import { PasswordService, UserService } from 'services/index';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
 
+@Service()
 class AuthService {
-    constructor(
-        private readonly userRepository: UserRepository,
-        private readonly userService: UserService,
-        private readonly passwordService: PasswordService,
-    ) {}
+    @Inject()
+    private readonly userRepository: UserRepository;
+
+    @Inject()
+    private readonly userService: UserService;
+
+    @Inject()
+    private readonly passwordService: PasswordService;
 
     async signUp(req: Request): Promise<IUserDto> {
         const user: ISignUpUserDto = req.body;

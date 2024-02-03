@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+import { Container, Inject, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
-import { UserRepository } from 'repositories/user';
-import { AuthService, PasswordService, UserService } from 'services/index';
+import { AuthService } from 'services/index';
 import { IResponseMessage, IUserDto } from 'types/interfaces';
 
+@Service()
 class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    @Inject()
+    private readonly authService: AuthService;
 
     async signUp(req: Request): Promise<IUserDto> {
         return this.authService.signUp(req);
@@ -21,12 +23,6 @@ class AuthController {
     }
 }
 
-const userRepository = new UserRepository();
-const userService = new UserService(userRepository);
-const passwordService = new PasswordService();
-
-const authService = new AuthService(userRepository, userService, passwordService);
-
 export const authController = ControllerConfigurator.configure<AuthController>(
-    new AuthController(authService),
+    Container.get(AuthController),
 );

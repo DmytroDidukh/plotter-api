@@ -1,6 +1,9 @@
+import { Service } from 'typedi';
+
 import { UserModel } from 'models/user';
 import { ISignUpUserDto, IUpdateUserDto, IUserModel } from 'types/interfaces/user';
 
+@Service()
 export class UserRepository {
     async getByEmail(email: string): Promise<IUserModel | null> {
         return UserModel.findOne({ email }).lean();
