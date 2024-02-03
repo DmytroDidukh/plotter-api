@@ -1,4 +1,4 @@
-export { default as AuthService } from './auth';
-export { default as CookieService } from './cookie';
-export { default as PasswordService } from './password';
-export { default as UserService } from './user';
+export { AuthService } from './auth';
+export { CookieService } from './cookie';
+export { PasswordService } from './password';
+export { UserService } from './user';

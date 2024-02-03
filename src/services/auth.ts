@@ -27,6 +27,7 @@ class AuthService {
         });
 
         if (existedUser) {
+            console.log('existedUser', existedUser);
             throw new ApiConflictError({
                 resourceName: 'user',
                 resourceId: user.email === existedUser.email ? user.email : user.username,
@@ -84,4 +85,4 @@ class AuthService {
     }
 }
 
-export default AuthService;
+export { AuthService };

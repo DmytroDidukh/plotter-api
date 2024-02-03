@@ -29,4 +29,4 @@ class RouteConfigurator {
     }
 }
 
-export default RouteConfigurator;
+export { RouteConfigurator };
