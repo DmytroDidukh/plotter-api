@@ -1,6 +1,6 @@
 import { body, ValidationChain } from 'express-validator';
 
-export class Validator {
+class BasicValidator {
     static createNotAllowedBodySchema(allowedFields: string[]): ValidationChain[] {
         return [
             body()
@@ -19,3 +19,5 @@ export class Validator {
         ];
     }
 }
+
+export { BasicValidator };

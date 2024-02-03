@@ -8,7 +8,7 @@ import {
     updateAccessTypeMiddleware,
     validationMiddleware,
 } from 'middleware/index';
-import { UserValidator } from 'middleware/validators/user-validator';
+import { UserValidator } from 'middleware/validators/user.validator';
 
 const routeConfigurator = new RouteConfigurator();
 

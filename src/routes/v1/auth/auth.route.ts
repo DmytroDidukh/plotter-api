@@ -4,7 +4,7 @@ import { HTTP_METHODS } from '@api-modules/consts/api';
 
 import { authController } from 'controllers/auth.controller';
 import { authorizationMiddleware, validationMiddleware } from 'middleware/index';
-import { AuthValidator } from 'middleware/validators/auth-validator';
+import { AuthValidator } from 'middleware/validators/auth.validator';
 
 const routeConfigurator = new RouteConfigurator();
 

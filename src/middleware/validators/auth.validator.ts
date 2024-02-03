@@ -2,9 +2,9 @@ import { body, ValidationChain } from 'express-validator';
 
 import { USER_FIELDS_NAMES, USER_VALIDATION_ERROR_MESSAGES } from 'consts/index';
 
-import { Validator } from './base-validator';
+import { BasicValidator } from './basic.validator';
 
-export class AuthValidator extends Validator {
+class AuthValidator extends BasicValidator {
     static signUpSchema: ValidationChain[] = [
         body(USER_FIELDS_NAMES.EMAIL).isEmail().withMessage(USER_VALIDATION_ERROR_MESSAGES.EMAIL),
         body(USER_FIELDS_NAMES.USERNAME)
@@ -44,3 +44,5 @@ export class AuthValidator extends Validator {
         ]),
     ];
 }
+
+export { AuthValidator };

@@ -3,9 +3,9 @@ import { body, param, ValidationChain } from 'express-validator';
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES, USER_VALIDATION_ERROR_MESSAGES } from 'consts/index';
 import { URLUtils } from 'utils/url.utils';
 
-import { Validator } from './base-validator';
+import { BasicValidator } from './basic.validator';
 
-export class UserValidator extends Validator {
+class UserValidator extends BasicValidator {
     static updateAccessTypeSchema: ValidationChain[] = [
         param(USER_FIELDS_NAMES.ID)
             .isMongoId()
@@ -61,3 +61,5 @@ export class UserValidator extends Validator {
         ...this.createNotAllowedBodySchema([]),
     ];
 }
+
+export { UserValidator };
