@@ -25,15 +25,20 @@ class ControllerConfigurator {
         } as unknown as T;
     }
 
-    static configure<T>(controllerClass: T): T {
+    static configure<T>(controllerClassInstance: T): T {
+        const prototype = Object.getPrototypeOf(controllerClassInstance);
         const configuredController = {} as T;
 
-        Object.getOwnPropertyNames(controllerClass).forEach((methodName) => {
-            const method = (controllerClass as any)[methodName];
+        Object.getOwnPropertyNames(prototype).forEach((methodName) => {
+            if (methodName !== 'constructor') {
+                const method = prototype[methodName];
 
-            if (typeof method === 'function' && methodName !== 'constructor') {
-                // Wrap the method with the controller action middleware
-                configuredController[methodName as keyof T] = this.handleAction(method);
+                if (typeof method === 'function') {
+                    // Wrap the method with the controller action middleware
+                    configuredController[methodName as keyof T] = this.handleAction(
+                        method.bind(controllerClassInstance),
+                    );
+                }
             }
         });
 
