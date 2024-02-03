@@ -15,6 +15,7 @@ import { IUserModel } from 'types/interfaces';
 class PassportConfigurator {
     constructor(
         private readonly userRepository: UserRepository,
+        private readonly userService: UserService,
         private readonly passwordService: PasswordService,
     ) {}
 
@@ -93,10 +94,13 @@ class PassportConfigurator {
                 return done(new ApiSignInCredentialsError());
             }
 
-            // TODO: Add is inactive user (deleted)
-            const isBanned = UserService.checkBanStatus(user.accessType);
-            if (isBanned) {
-                return done(new ApiAccessDeniedError({ message: 'Current user is banned' }));
+            const accessTypeVerificationResult = this.userService.verifyAccessType(user.accessType);
+            if (!accessTypeVerificationResult.isAllowed) {
+                return done(
+                    new ApiAccessDeniedError({
+                        message: `Your account is ${accessTypeVerificationResult.status}`,
+                    }),
+                );
             }
 
             return done(null, user);

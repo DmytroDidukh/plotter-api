@@ -3,7 +3,7 @@ import { RouteConfigurator } from '@api-modules/configurators';
 import { HTTP_METHODS } from '@api-modules/consts/api';
 
 import { authController } from 'controllers/auth';
-import { bannedUserMiddleware, validate } from 'middleware/index';
+import { authorizationMiddleware, validate } from 'middleware/index';
 import { AuthValidator } from 'middleware/validators/auth-validator';
 
 const routeConfigurator = new RouteConfigurator();
@@ -31,7 +31,7 @@ routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-out',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
-    bannedUserMiddleware,
+    authorizationMiddleware,
     authController.signOut,
 );
 

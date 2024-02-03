@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
-import { USER_ACCESS_TYPES } from 'consts/user';
+import { USER_ROLES } from 'consts/user';
 import { UserRepository } from 'repositories/user';
 import { IUserModel } from 'types/interfaces';
 
@@ -30,10 +30,10 @@ async function checkPermissionToUpdateUserAccessType(
         });
     }
 
-    const isAdmin = currentUser.accessType === USER_ACCESS_TYPES.ADMIN;
-    const isSuperAdmin = currentUser.accessType === USER_ACCESS_TYPES.SUPER_ADMIN;
-    const isTargetAdmin = targetUser.accessType === USER_ACCESS_TYPES.ADMIN;
-    const isTargetSuperAdmin = targetUser.accessType === USER_ACCESS_TYPES.SUPER_ADMIN;
+    const isAdmin = currentUser.role === USER_ROLES.ADMIN;
+    const isSuperAdmin = currentUser.role === USER_ROLES.SUPER_ADMIN;
+    const isTargetAdmin = targetUser.role === USER_ROLES.ADMIN;
+    const isTargetSuperAdmin = targetUser.role === USER_ROLES.SUPER_ADMIN;
 
     if ((isSuperAdmin || isAdmin) && !isTargetSuperAdmin) {
         next();

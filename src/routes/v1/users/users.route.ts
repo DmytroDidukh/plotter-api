@@ -4,7 +4,7 @@ import { HTTP_METHODS } from '@api-modules/consts/api';
 
 import { userController } from 'controllers/user';
 import {
-    bannedUserMiddleware,
+    authorizationMiddleware,
     checkPermissionToUpdateUserAccessType,
     validate,
 } from 'middleware/index';
@@ -17,7 +17,7 @@ routeConfigurator.registerRoute(
     HTTP_METHODS.GET,
     '/me',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
-    bannedUserMiddleware,
+    authorizationMiddleware,
     userController.myProfile,
 );
 
@@ -25,10 +25,10 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/:id',
+    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    authorizationMiddleware,
     ...UserValidator.updateSchema,
     validate,
-    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
-    bannedUserMiddleware,
     userController.updateMe,
 );
 
@@ -36,10 +36,10 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.DELETE,
     '/:id',
+    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    authorizationMiddleware,
     ...UserValidator.deleteSchema,
     validate,
-    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
-    bannedUserMiddleware,
     userController.deleteMe,
 );
 
@@ -47,9 +47,10 @@ routeConfigurator.registerRoute(
 routeConfigurator.registerRoute(
     HTTP_METHODS.PUT,
     '/access-type/:id',
+    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    authorizationMiddleware,
     ...UserValidator.updateAccessTypeSchema,
     validate,
-    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     checkPermissionToUpdateUserAccessType,
     userController.updateAccessType,
 );

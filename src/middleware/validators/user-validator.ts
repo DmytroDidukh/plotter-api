@@ -25,6 +25,16 @@ export class UserValidator extends Validator {
             .optional()
             .isString()
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_TYPE),
+        body(USER_FIELDS_NAMES.FIRST_NAME)
+            .optional()
+            .notEmpty()
+            .isString()
+            .withMessage(USER_VALIDATION_ERROR_MESSAGES.FIRST_NAME),
+        body(USER_FIELDS_NAMES.LAST_NAME)
+            .optional()
+            .notEmpty()
+            .isString()
+            .withMessage(USER_VALIDATION_ERROR_MESSAGES.LAST_NAME),
         body(USER_FIELDS_NAMES.BIRTH_DATE)
             .optional()
             .isISO8601()
@@ -37,6 +47,8 @@ export class UserValidator extends Validator {
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.PROFILE_PICTURE_FORMAT),
         ...this.createNotAllowedBodySchema([
             USER_FIELDS_NAMES.USERNAME,
+            USER_FIELDS_NAMES.FIRST_NAME,
+            USER_FIELDS_NAMES.LAST_NAME,
             USER_FIELDS_NAMES.BIRTH_DATE,
             USER_FIELDS_NAMES.PROFILE_PICTURE,
         ]),

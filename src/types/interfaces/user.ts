@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-import { USER_ACCESS_TYPES } from 'consts/user';
+import { USER_ACCESS_TYPES, USER_ROLES } from 'consts/user';
 
 interface IUserShared {
     username: string;
@@ -13,13 +13,13 @@ interface IUserBase extends IUserShared {
     birthDate?: string;
     profilePicture?: string;
     accessType?: USER_ACCESS_TYPES;
+    role?: USER_ROLES;
 }
 
 interface IUserModel extends IUserBase {
     _id: Types.ObjectId;
     salt: string;
     hash: string;
-    isActive?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

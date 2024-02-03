@@ -9,7 +9,7 @@ class ApiAccessDeniedError extends ApiBaseError {
             httpStatus = HTTP_STATUSES.FORBIDDEN,
             code = ERROR_CODES.ACCESS_DENIED,
             type = 'Access Denied',
-            message = 'The authentication token in use is restricted and cannot access the requested resource.',
+            message = 'The authentication method is restricted and cannot access the requested resource.',
             innerError,
         } = options;
 

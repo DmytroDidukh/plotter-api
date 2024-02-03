@@ -14,7 +14,8 @@ export class AuthValidator extends Validator {
             .isLength({ min: 2, max: 50 })
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_INVALID),
         body(USER_FIELDS_NAMES.PASSWORD)
-            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,24}$/)
+            .notEmpty()
+            // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,24}$/)
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.PASSWORD),
         body(USER_FIELDS_NAMES.PASSWORD_CONFIRMATION).custom((value, { req }) => {
             if (value !== req.body.password) {
