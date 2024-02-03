@@ -1,6 +1,6 @@
 class Logger {
-    log(message: string): void {
-        console.log(this.getTimestamp(), 'INFO: ', message);
+    info(message: string, ...data: any): void {
+        console.log(this.getTimestamp(), 'INFO: ', message, ...data);
     }
 
     error(message: string, error?: Error): void {

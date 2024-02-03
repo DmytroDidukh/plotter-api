@@ -3,8 +3,11 @@ import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import { Container, Service } from 'typedi';
+import { Logger } from '@api-modules/services';
 
 import { CookieService } from 'services/index';
+
+const logger = new Logger();
 
 @Service()
 class SessionConfigurator {
@@ -36,7 +39,7 @@ class SessionConfigurator {
             }),
         );
 
-        console.log('SESSION SET');
+        logger.info('SESSION CONFIGURED');
     }
 }
 

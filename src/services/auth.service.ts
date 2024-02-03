@@ -28,7 +28,7 @@ class AuthService {
 
     async signUp(req: Request): Promise<IUserDto> {
         const user: ISignUpUserDto = req.body;
-        const existedUser = await this.userRepository.getByUsernameOrEmail({
+        const existedUser = await this.userRepository.findByUsernameOrEmail({
             email: user.email,
             username: user.username,
         });

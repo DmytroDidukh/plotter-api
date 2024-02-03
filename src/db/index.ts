@@ -1,15 +1,18 @@
 import mongoose from 'mongoose';
+import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
+
+const logger = new Logger();
 
 async function setupDatabase(): Promise<mongoose.mongo.MongoClient> {
     try {
         const m = await mongoose.connect(config.MONGO_URI);
-        console.log('CONNECTED TO DB');
+        logger.info('DB CONNECTED');
 
         return m.connection.getClient();
     } catch (error) {
-        console.error('DB CONNECTION ERROR: ', error);
+        logger.error('DB CONNECTION ERROR: ', error);
     }
 }
 

@@ -6,9 +6,9 @@ import { Logger } from './logger';
 import { HTTP_STATUSES } from '../consts/api';
 import { ApiBaseError } from '../errors/base-error';
 
-class ResponseService {
-    static logger = new Logger();
+const logger = new Logger();
 
+class ResponseService {
     static sendResponse(res: Response, data: any): void {
         res.send({ data });
     }
@@ -19,14 +19,14 @@ class ResponseService {
 
             res.status(error.httpStatus || HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(errorResponse);
 
-            this.logger.error('Known error occurred', error);
+            logger.error('Known error occurred', error);
         } else {
             const _error = new ApiUnhandledError({ innerError: error });
             const genericErrorResponse = this.prepareErrorResponse(_error);
 
             res.status(_error.httpStatus).send(genericErrorResponse);
 
-            this.logger.error('Unhandled error occurred', error);
+            logger.error('Unhandled error occurred', error);
         }
     }
 

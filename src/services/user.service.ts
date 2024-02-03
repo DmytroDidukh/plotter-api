@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
+import { ApiAccessDeniedError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
@@ -24,28 +24,20 @@ class UserService {
         targetUserId: string,
         data: IUpdateUserDto,
     ): Promise<IUserDto> {
-        const user = await this.userRepository.getById(targetUserId);
-
-        if (!user) {
-            throw new ApiNotFoundError({ resourceId: targetUserId, resourceName: 'user' });
-        }
+        const user = await this.userRepository.findByIdOrFail(targetUserId);
 
         const userId = UserService.getIdFromModel(user);
         if (currentUserId !== userId) {
             throw new ApiAccessDeniedError({ message: 'User can update only own data' });
         }
 
-        const updatedUser = await this.userRepository.update(targetUserId, data);
+        const updatedUser = await this.userRepository.updateOne<IUpdateUserDto>(targetUserId, data);
 
         return this.mapModelToDto(updatedUser);
     }
 
     async deleteMe(currentUserId: string, targetUserId: string): Promise<IResponseDateMessage> {
-        const user = await this.userRepository.getById(targetUserId);
-
-        if (!user) {
-            throw new ApiNotFoundError({ resourceId: targetUserId, resourceName: 'user' });
-        }
+        const user = await this.userRepository.findByIdOrFail(targetUserId);
 
         const userId = UserService.getIdFromModel(user);
         if (currentUserId !== userId) {
@@ -67,13 +59,9 @@ class UserService {
     }
 
     async updateAccessType(id: string, accessType: USER_ACCESS_TYPES): Promise<IUserDto> {
-        const user = await this.userRepository.getById(id);
+        await this.userRepository.findByIdOrFail(id);
 
-        if (!user) {
-            throw new ApiNotFoundError({ resourceId: id, resourceName: 'user' });
-        }
-
-        const updatedUser = await this.userRepository.updateOneField(
+        const updatedUser = await this.userRepository.updateOneFieldOrFail(
             id,
             USER_FIELDS_NAMES.ACCESS_TYPE,
             accessType,

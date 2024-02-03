@@ -14,7 +14,7 @@ async function updateAccessTypeMiddleware(req: Request, res: Response, next: Nex
     const currentUserId = currentUser._id.toString();
     const targetUserId: string = req.params.id;
 
-    const targetUser = await userRepository.getById(targetUserId);
+    const targetUser = await userRepository.findByIdOrFail(targetUserId);
 
     if (!targetUser) {
         throw new ApiNotFoundError({ resourceId: targetUserId, resourceName: 'user' });

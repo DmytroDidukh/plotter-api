@@ -4,12 +4,15 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Container, Service } from 'typedi';
 import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/errors';
+import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
 import { PasswordService, UserService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
+
+const logger = new Logger();
 
 @Service()
 class PassportConfigurator {
@@ -29,7 +32,7 @@ class PassportConfigurator {
         passport.serializeUser(this.serializeUser.bind(this));
         passport.deserializeUser(this.deserializeUser.bind(this));
 
-        console.log('PASSPORT SET');
+        logger.info('PASSPORT CONFIGURED');
     }
 
     private configureLocalStrategy(): void {
@@ -51,7 +54,7 @@ class PassportConfigurator {
                     callbackURL: config.GOOGLE_APP_REDIRECT_URI,
                 },
                 async (accessToken, refreshToken, profile, done) => {
-                    console.log('GOOGLE USER: ', profile);
+                    logger.info('GOOGLE USER: ', profile);
 
                     return done(null, profile);
                 },
@@ -61,7 +64,7 @@ class PassportConfigurator {
 
     private async deserializeUser(id: string, done: (error: any, user?: any) => void) {
         try {
-            const user = await this.userRepository.getById(id);
+            const user = await this.userRepository.findById(id);
             done(null, user);
         } catch (error) {
             done(error);
@@ -80,7 +83,7 @@ class PassportConfigurator {
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
-            const user = await this.userRepository.getByUsernameOrEmail({
+            const user = await this.userRepository.findByUsernameOrEmail({
                 email: emailOrUsername,
                 username: emailOrUsername,
             });

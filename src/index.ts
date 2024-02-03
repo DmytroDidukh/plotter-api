@@ -6,11 +6,14 @@ import flash from 'express-flash';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { errorHandlerMiddleware } from '@api-modules/middleware/error-handler.middleware';
+import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
 import { passportConfigurator, sessionConfigurator } from 'configurators/index';
 import { setupDatabase } from 'db/index';
 import { rootRouter } from 'routes/index';
+
+const logger = new Logger();
 
 const app: Express = express();
 const mongoClientPromise = setupDatabase();
@@ -38,5 +41,5 @@ app.use(rootRouter);
 app.use(errorHandlerMiddleware);
 
 app.listen(config.PORT, () => {
-    console.log(`SERVER IS STARTED ON ${config.PORT}`);
+    logger.info(`SERVER IS STARTED ON ${config.PORT}`);
 });
