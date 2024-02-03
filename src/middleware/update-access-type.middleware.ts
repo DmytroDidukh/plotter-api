@@ -7,11 +7,7 @@ import { UserRepository } from 'repositories/user';
 import { IUserModel } from 'types/interfaces';
 
 // TODO: Consider moving it to userService since it used only in one place
-async function checkPermissionToUpdateUserAccessType(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) {
+async function updateAccessTypeMiddleware(req: Request, res: Response, next: NextFunction) {
     const userRepository = Container.get(UserRepository);
 
     const currentUser = req.user as IUserModel;
@@ -46,4 +42,4 @@ async function checkPermissionToUpdateUserAccessType(
     }
 }
 
-export { checkPermissionToUpdateUserAccessType };
+export { updateAccessTypeMiddleware };

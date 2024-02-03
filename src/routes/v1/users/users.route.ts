@@ -5,8 +5,8 @@ import { HTTP_METHODS } from '@api-modules/consts/api';
 import { userController } from 'controllers/user';
 import {
     authorizationMiddleware,
-    checkPermissionToUpdateUserAccessType,
-    validate,
+    updateAccessTypeMiddleware,
+    validationMiddleware,
 } from 'middleware/index';
 import { UserValidator } from 'middleware/validators/user-validator';
 
@@ -27,8 +27,7 @@ routeConfigurator.registerRoute(
     '/:id',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     authorizationMiddleware,
-    ...UserValidator.updateSchema,
-    validate,
+    validationMiddleware(UserValidator.updateSchema),
     userController.updateMe,
 );
 
@@ -38,8 +37,7 @@ routeConfigurator.registerRoute(
     '/:id',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     authorizationMiddleware,
-    ...UserValidator.deleteSchema,
-    validate,
+    validationMiddleware(UserValidator.deleteSchema),
     userController.deleteMe,
 );
 
@@ -49,9 +47,8 @@ routeConfigurator.registerRoute(
     '/access-type/:id',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     authorizationMiddleware,
-    ...UserValidator.updateAccessTypeSchema,
-    validate,
-    checkPermissionToUpdateUserAccessType,
+    validationMiddleware(UserValidator.updateAccessTypeSchema),
+    updateAccessTypeMiddleware,
     userController.updateAccessType,
 );
 

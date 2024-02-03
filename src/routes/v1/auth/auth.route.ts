@@ -3,7 +3,7 @@ import { RouteConfigurator } from '@api-modules/configurators';
 import { HTTP_METHODS } from '@api-modules/consts/api';
 
 import { authController } from 'controllers/auth';
-import { authorizationMiddleware, validate } from 'middleware/index';
+import { authorizationMiddleware, validationMiddleware } from 'middleware/index';
 import { AuthValidator } from 'middleware/validators/auth-validator';
 
 const routeConfigurator = new RouteConfigurator();
@@ -13,7 +13,7 @@ routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-up',
     ...AuthValidator.signUpSchema,
-    validate,
+    validationMiddleware(AuthValidator.signUpSchema),
     authController.signUp,
 );
 
@@ -22,7 +22,7 @@ routeConfigurator.registerRoute(
     HTTP_METHODS.POST,
     '/sign-in',
     ...AuthValidator.signInSchema,
-    validate,
+    validationMiddleware(AuthValidator.signInSchema),
     authController.signIn,
 );
 
