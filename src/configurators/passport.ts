@@ -25,8 +25,8 @@ class PassportConfigurator {
         this.configureLocalStrategy();
         this.configureGoogleStrategy();
 
-        passport.serializeUser(this.serializeUser);
-        passport.deserializeUser(this.deserializeUser);
+        passport.serializeUser(this.serializeUser.bind(this));
+        passport.deserializeUser(this.deserializeUser.bind(this));
 
         console.log('PASSPORT SET');
     }
@@ -36,7 +36,7 @@ class PassportConfigurator {
             new LocalStrategy(
                 { usernameField: USER_FIELDS_NAMES.EMAIL_OR_USERNAME },
                 (emailOrUsername, password, done) =>
-                    this.verifyUser(emailOrUsername, password, done),
+                    this.verifyUser.call(this, emailOrUsername, password, done),
             ),
         );
     }

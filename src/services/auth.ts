@@ -8,8 +8,11 @@ import {
 } from '@api-modules/errors';
 
 import { UserRepository } from 'repositories/user';
-import { PasswordService, UserService } from 'services/index';
 import { IResponseMessage, ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
+
+// It's important to import the services with relative paths due "typedi" dependency injection order
+import { PasswordService } from './password';
+import { UserService } from './user';
 
 @Service()
 class AuthService {
@@ -27,7 +30,6 @@ class AuthService {
         });
 
         if (existedUser) {
-            console.log('existedUser', existedUser);
             throw new ApiConflictError({
                 resourceName: 'user',
                 resourceId: user.email === existedUser.email ? user.email : user.username,

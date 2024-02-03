@@ -4,7 +4,7 @@ import { UserModel } from 'models/user';
 import { ISignUpUserDto, IUpdateUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()
-export class UserRepository {
+class UserRepository {
     async getByEmail(email: string): Promise<IUserModel | null> {
         return UserModel.findOne({ email }).lean();
     }
@@ -37,3 +37,5 @@ export class UserRepository {
         return this.getById(id);
     }
 }
+
+export { UserRepository };

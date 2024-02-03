@@ -6,7 +6,6 @@ class PasswordService {
     private readonly saltRounds: number;
 
     constructor(saltRounds = 12) {
-        console.log('PasswordService instantiated');
         this.saltRounds = saltRounds;
     }
 
