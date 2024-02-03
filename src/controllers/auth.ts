@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Container, Inject, Service } from 'typedi';
+import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
 import { AuthService } from 'services/index';
@@ -7,8 +7,7 @@ import { IResponseMessage, IUserDto } from 'types/interfaces';
 
 @Service()
 class AuthController {
-    @Inject()
-    private readonly authService: AuthService;
+    constructor(private readonly authService: AuthService) {}
 
     async signUp(req: Request): Promise<IUserDto> {
         return this.authService.signUp(req);

@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { ApiAccessDeniedError, ApiNotFoundError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
@@ -8,8 +8,7 @@ import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()
 class UserService {
-    @Inject()
-    private readonly userRepository: UserRepository;
+    constructor(private readonly userRepository: UserRepository) {}
 
     mapModelToDto(user: IUserModel): IUserDto {
         return {

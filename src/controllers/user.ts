@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Container, Inject, Service } from 'typedi';
+import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
 import { UserService } from 'services/index';
@@ -8,8 +8,7 @@ import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()
 class UserController {
-    @Inject()
-    private readonly userService: UserService;
+    constructor(private readonly userService: UserService) {}
 
     async myProfile(req: Request): Promise<IUserDto> {
         const user = req.user as IUserModel;

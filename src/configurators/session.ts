@@ -2,9 +2,11 @@ import MongoStore from 'connect-mongo';
 import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
+import { Container, Service } from 'typedi';
 
 import { CookieService } from 'services/index';
 
+@Service()
 class SessionConfigurator {
     constructor(private readonly cookieService: CookieService) {}
 
@@ -38,7 +40,6 @@ class SessionConfigurator {
     }
 }
 
-const cookieService = new CookieService();
-const sessionConfigurator = new SessionConfigurator(cookieService);
+const sessionConfigurator = Container.get(SessionConfigurator);
 
 export default sessionConfigurator;

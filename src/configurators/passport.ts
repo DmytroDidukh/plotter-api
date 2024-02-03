@@ -2,6 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Container, Service } from 'typedi';
 import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/errors';
 
 import config from 'config/config';
@@ -10,6 +11,7 @@ import { UserRepository } from 'repositories/user';
 import { PasswordService, UserService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
 
+@Service()
 class PassportConfigurator {
     constructor(
         private readonly userRepository: UserRepository,
@@ -104,9 +106,6 @@ class PassportConfigurator {
     }
 }
 
-const userRepository = new UserRepository();
-const passwordService = new PasswordService();
-
-const passportConfigurator = new PassportConfigurator(userRepository, passwordService);
+const passportConfigurator = Container.get(PassportConfigurator);
 
 export default passportConfigurator;

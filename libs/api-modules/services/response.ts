@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { HTTP_STATUSES } from '../consts/api';
 import { ApiBaseError } from '../errors/base-error';
 
-export class ResponseService {
+class ResponseService {
     static sendResponse(res: Response, data: any): void {
         res.send({ data });
     }
@@ -17,3 +17,5 @@ export class ResponseService {
         });
     }
 }
+
+export { ResponseService };

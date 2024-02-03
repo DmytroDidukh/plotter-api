@@ -41,4 +41,4 @@ class ControllerConfigurator {
     }
 }
 
-export { ControllerConfigurator };
+export default ControllerConfigurator;

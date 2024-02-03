@@ -1,5 +1,5 @@
 import connectEnsureLogin from 'connect-ensure-login';
-import { RouteConfigurator } from '@api-modules/configurators/route-configurator';
+import { RouteConfigurator } from '@api-modules/configurators';
 import { HTTP_METHODS } from '@api-modules/consts/api';
 
 import { userController } from 'controllers/user';
