@@ -54,4 +54,5 @@ export enum ERROR_CODES {
     CONFLICT = 409001,
     // 500
     UNKNOWN = 500001,
+    UNHANDLED = 500002,
 }

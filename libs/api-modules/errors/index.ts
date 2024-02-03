@@ -6,4 +6,4 @@ export * from './invalid-params-error';
 export * from './not-found-error';
 export * from './request-timeout-error';
 export * from './sign-in-credentials-error';
-export * from './unknown-error';
+export * from './unhandled-error';
