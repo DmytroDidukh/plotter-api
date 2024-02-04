@@ -1,44 +1,48 @@
-import { Model } from 'mongoose';
+import { Model, SaveOptions } from 'mongoose';
 import { ApiNotFoundError } from '@api-modules/errors';
 
-class BasicRepository<V> {
+class BasicRepository<VModel> {
     entityName: string;
 
-    constructor(private readonly model: Model<V>) {}
+    constructor(private readonly model: Model<VModel>) {}
 
-    findById(id: string): Promise<V | null> {
+    findById(id: string): Promise<VModel | null> {
         return this.model.findById({ _id: id }).lean();
     }
 
-    async findByIdOrFail(id: string): Promise<V> {
+    async findByIdOrFail(id: string): Promise<VModel> {
         const entity = await this.model.findById({ _id: id }).lean();
 
         if (!entity) {
             throw new ApiNotFoundError({ resourceId: id, resourceName: this.entityName });
         }
 
-        return entity as V;
+        return entity as VModel;
     }
 
-    async create(data: Omit<V, '_id' | 'createdAt' | 'updatedAt'>): Promise<V> {
-        return await this.model.create(data);
+    async create(
+        data: Omit<VModel, '_id' | 'createdAt' | 'updatedAt'>,
+        options?: SaveOptions,
+    ): Promise<VModel> {
+        const createdDocument = new this.model(data);
+        return (await createdDocument.save(options)).toJSON() as unknown as VModel;
     }
 
-    updateOneField<T extends keyof Omit<V, '_id'>>(
+    updateOneField<T extends keyof Omit<VModel, '_id'>>(
         id: string,
         fieldName: T,
-        fieldValue: V[T],
-    ): Promise<V> {
+        fieldValue: VModel[T],
+    ): Promise<VModel> {
         return this.model
             .findOneAndUpdate({ _id: id }, { [fieldName]: fieldValue }, { new: true })
             .lean();
     }
 
-    async updateOneFieldOrFail<T extends keyof Omit<V, '_id'>>(
+    async updateOneFieldOrFail<T extends keyof Omit<VModel, '_id'>>(
         id: string,
         fieldName: T,
-        fieldValue: V[T],
-    ): Promise<V> {
+        fieldValue: VModel[T],
+    ): Promise<VModel> {
         const update = { [fieldName]: fieldValue };
         const updatedEntity = await this.model
             .findOneAndUpdate({ _id: id }, update, { new: true })
@@ -48,10 +52,10 @@ class BasicRepository<V> {
             throw new ApiNotFoundError({ resourceId: id, resourceName: this.entityName });
         }
 
-        return updatedEntity as V;
+        return updatedEntity as VModel;
     }
 
-    updateOne<T>(id: string, data: T): Promise<V> {
+    updateOne<T>(id: string, data: T): Promise<VModel> {
         return this.model.findOneAndUpdate({ _id: id }, data, { new: true }).lean();
     }
 }
