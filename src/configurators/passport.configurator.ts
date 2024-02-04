@@ -1,15 +1,14 @@
 import express from 'express';
 import passport from 'passport';
-import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Container, Service } from 'typedi';
-import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/errors';
 import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
-import { PasswordService, UserService } from 'services/index';
+import { AuthService, PasswordService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
 
 const logger = new Logger();
@@ -18,7 +17,7 @@ const logger = new Logger();
 class PassportConfigurator {
     constructor(
         private readonly userRepository: UserRepository,
-        private readonly userService: UserService,
+        private readonly authService: AuthService,
         private readonly passwordService: PasswordService,
     ) {}
 
@@ -39,7 +38,7 @@ class PassportConfigurator {
         passport.use(
             new LocalStrategy(
                 { usernameField: USER_FIELDS_NAMES.EMAIL_OR_USERNAME },
-                this.verifyUser.bind(this),
+                this.authService.verifyUser,
             ),
         );
     }
@@ -54,7 +53,7 @@ class PassportConfigurator {
                     passReqToCallback: true,
                     scope: [config.GOOGLE_AUTH_EMAIL_SCOPE, config.GOOGLE_AUTH_PROFILE_SCOPE],
                 },
-                this.verifyGoogleUser.bind(this),
+                this.authService.verifyGoogleUser,
             ),
         );
     }
@@ -73,66 +72,6 @@ class PassportConfigurator {
     private serializeUser(user: IUserModel, done: (error: any, id?: any) => void) {
         if (user) {
             done(null, user._id);
-        }
-    }
-
-    private async verifyUser(
-        emailOrUsername: string,
-        password: string,
-        done: (error: any, user?: IUserModel) => void,
-    ) {
-        try {
-            const user = await this.userRepository.findByUsernameOrEmail({
-                email: emailOrUsername,
-                username: emailOrUsername,
-            });
-
-            if (!user) {
-                return done(new ApiSignInCredentialsError());
-            }
-
-            const isValidPassword = await this.passwordService.compare(password, user.hash);
-            if (!isValidPassword) {
-                return done(new ApiSignInCredentialsError());
-            }
-
-            const accessTypeVerificationResult = this.userService.verifyAccessType(user.accessType);
-            if (!accessTypeVerificationResult.isAllowed) {
-                return done(
-                    new ApiAccessDeniedError({
-                        message: `Your account is ${accessTypeVerificationResult.status}`,
-                    }),
-                );
-            }
-
-            return done(null, user);
-        } catch (error) {
-            return done(error);
-        }
-    }
-
-    private async verifyGoogleUser(
-        req: Request,
-        accessToken: string,
-        refreshToken: string,
-        profile: Profile,
-        done: (error: any, user?: IUserModel) => void,
-    ) {
-        try {
-            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
-
-            if (!existedUser) {
-                logger.info('Google user does not exist. Creating new user');
-                const newUser = await this.userService.createGoogleUser(profile);
-
-                return done(null, newUser);
-            }
-
-            logger.info('Google user exists. Logging in');
-
-            return done(null, existedUser);
-        } catch (error) {
-            return done(error);
         }
     }
 }

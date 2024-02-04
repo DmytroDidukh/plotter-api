@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
+import { Profile } from 'passport-google-oauth20';
 import { Service } from 'typedi';
 import {
+    ApiAccessDeniedError,
     ApiConflictError,
     ApiInvalidAuthenticationError,
     ApiSignInCredentialsError,
 } from '@api-modules/errors';
+import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
 import { UserRepository } from 'repositories/user.repository';
@@ -13,7 +16,10 @@ import { ISignUpUserInput, IUserDto, IUserModel } from 'types/interfaces';
 
 // It's important to import the services with relative paths due "typedi" dependency injection order
 import { CookieService } from './cookie.service';
+import { PasswordService } from './password.service';
 import { UserService } from './user.service';
+
+const logger = new Logger();
 
 export interface IResponseMessage {
     message: string;
@@ -24,8 +30,12 @@ class AuthService {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly userService: UserService,
+        private readonly passwordService: PasswordService,
         private readonly cookieService: CookieService,
-    ) {}
+    ) {
+        this.verifyUser = this.verifyUser.bind(this);
+        this.verifyGoogleUser = this.verifyGoogleUser.bind(this);
+    }
 
     async signUp(req: Request): Promise<IUserDto> {
         const user: ISignUpUserInput = req.body;
@@ -101,6 +111,66 @@ class AuthService {
                 resolve({ message: 'You have been signed out' });
             });
         });
+    }
+
+    async verifyUser(
+        emailOrUsername: string,
+        password: string,
+        done: (error: any, user?: IUserModel) => void,
+    ) {
+        try {
+            const user = await this.userRepository.findByUsernameOrEmail({
+                email: emailOrUsername,
+                username: emailOrUsername,
+            });
+
+            if (!user) {
+                return done(new ApiSignInCredentialsError());
+            }
+
+            const isValidPassword = await this.passwordService.compare(password, user.hash);
+            if (!isValidPassword) {
+                return done(new ApiSignInCredentialsError());
+            }
+
+            const accessTypeVerificationResult = this.userService.verifyAccessType(user.accessType);
+            if (!accessTypeVerificationResult.isAllowed) {
+                return done(
+                    new ApiAccessDeniedError({
+                        message: `Your account is ${accessTypeVerificationResult.status}`,
+                    }),
+                );
+            }
+
+            return done(null, user);
+        } catch (error) {
+            return done(error);
+        }
+    }
+
+    async verifyGoogleUser(
+        req: Request,
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        done: (error: any, user?: IUserModel) => void,
+    ) {
+        try {
+            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
+
+            if (!existedUser) {
+                logger.info('Google user does not exist. Creating new user');
+                const newUser = await this.userService.createGoogleUser(profile);
+
+                return done(null, newUser);
+            }
+
+            logger.info('Google user exists. Logging in');
+
+            return done(null, existedUser);
+        } catch (error) {
+            return done(error);
+        }
     }
 }
 
