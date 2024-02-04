@@ -1,5 +1,6 @@
-import express from 'express';
+import { Application } from 'express';
 import passport from 'passport';
+import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Container, Service } from 'typedi';
@@ -8,7 +9,7 @@ import { Logger } from '@api-modules/services';
 import config from 'config/config';
 import { USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
-import { AuthService, PasswordService } from 'services/index';
+import { AuthService } from 'services/index';
 import { IUserModel } from 'types/interfaces';
 
 const logger = new Logger();
@@ -18,15 +19,15 @@ class PassportConfigurator {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly authService: AuthService,
-        private readonly passwordService: PasswordService,
     ) {}
 
-    public configure(app: express.Application): void {
+    public configure(app: Application): void {
         app.use(passport.initialize());
         app.use(passport.session());
 
         this.configureLocalStrategy();
         this.configureGoogleStrategy();
+        this.configureFacebookStrategy();
 
         passport.serializeUser(this.serializeUser.bind(this));
         passport.deserializeUser(this.deserializeUser.bind(this));
@@ -47,13 +48,27 @@ class PassportConfigurator {
         passport.use(
             new GoogleStrategy(
                 {
-                    clientID: config.GOOGLE_AUTH_CLIENT_ID,
-                    clientSecret: config.GOOGLE_AUTH_CLIENT_SECRET,
-                    callbackURL: config.GOOGLE_APP_REDIRECT_URI,
+                    clientID: config.GOOGLE_CLIENT_ID,
+                    clientSecret: config.GOOGLE_CLIENT_SECRET,
+                    callbackURL: config.GOOGLE_REDIRECT_URI,
                     passReqToCallback: true,
-                    scope: [config.GOOGLE_AUTH_EMAIL_SCOPE, config.GOOGLE_AUTH_PROFILE_SCOPE],
+                    scope: [config.GOOGLE_EMAIL_SCOPE, config.GOOGLE_PROFILE_SCOPE],
                 },
                 this.authService.verifyGoogleUser,
+            ),
+        );
+    }
+
+    private configureFacebookStrategy(): void {
+        passport.use(
+            new FacebookStrategy(
+                {
+                    clientID: config.FACEBOOK_CLIENT_ID,
+                    clientSecret: config.FACEBOOK_CLIENT_SECRET,
+                    callbackURL: config.FACEBOOK_REDIRECT_URI,
+                    passReqToCallback: true,
+                },
+                this.authService.verifyFacebookUser,
             ),
         );
     }

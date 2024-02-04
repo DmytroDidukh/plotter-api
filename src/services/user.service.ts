@@ -1,4 +1,5 @@
-import { Profile } from 'passport-google-oauth20';
+import { Profile as FacebookProfile } from 'passport-facebook';
+import { Profile as GoogleProfile } from 'passport-google-oauth20';
 import { Service } from 'typedi';
 import { ApiAccessDeniedError } from '@api-modules/errors';
 
@@ -6,6 +7,7 @@ import { USER_ACCESS_TYPES, USER_AUTH_TYPES, USER_FIELDS_NAMES } from 'consts/us
 import { UserRepository } from 'repositories/user.repository';
 import { PasswordService } from 'services/password.service';
 import {
+    ICreateFacebookUserInput,
     ICreateGoogleUserInput,
     ICreateUserInput,
     ISignUpUserInput,
@@ -43,7 +45,7 @@ class UserService {
         });
     }
 
-    async createGoogleUser(profile: Profile): Promise<IUserModel> {
+    async createGoogleUser(profile: GoogleProfile): Promise<IUserModel> {
         return this.userRepository.create<ICreateGoogleUserInput>({
             originId: profile.id,
             email: profile.emails[0].value,
@@ -52,8 +54,18 @@ class UserService {
             lastName: profile.name?.familyName,
             profilePicture: profile.photos[0].value,
             authType: USER_AUTH_TYPES.GOOGLE,
-            hash: '1',
-            salt: '2',
+        });
+    }
+
+    async createFacebookUser(profile: FacebookProfile): Promise<IUserModel> {
+        return this.userRepository.create<ICreateFacebookUserInput>({
+            originId: profile.id,
+            email: profile.emails[0].value,
+            username: profile.displayName,
+            firstName: profile.name?.givenName,
+            lastName: profile.name?.familyName,
+            profilePicture: profile.photos[0].value,
+            authType: USER_AUTH_TYPES.FACEBOOK,
         });
     }
 

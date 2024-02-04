@@ -15,11 +15,14 @@ interface ENV {
     MONGO_URI: string | undefined;
     SESSION_SECRET: string | undefined;
     COOKIE_NAME: string | undefined;
-    GOOGLE_AUTH_CLIENT_ID: string | undefined;
-    GOOGLE_AUTH_CLIENT_SECRET: string | undefined;
-    GOOGLE_APP_REDIRECT_URI: string | undefined;
-    GOOGLE_AUTH_EMAIL_SCOPE: string | undefined;
-    GOOGLE_AUTH_PROFILE_SCOPE: string | undefined;
+    GOOGLE_CLIENT_ID: string | undefined;
+    GOOGLE_CLIENT_SECRET: string | undefined;
+    GOOGLE_REDIRECT_URI: string | undefined;
+    GOOGLE_EMAIL_SCOPE: string | undefined;
+    GOOGLE_PROFILE_SCOPE: string | undefined;
+    FACEBOOK_CLIENT_ID: string | undefined;
+    FACEBOOK_CLIENT_SECRET: string | undefined;
+    FACEBOOK_REDIRECT_URI: string | undefined;
     CLIENT_ORIGIN: string | undefined;
 }
 
@@ -29,11 +32,14 @@ interface Config {
     MONGO_URI: string;
     SESSION_SECRET: string;
     COOKIE_NAME: string;
-    GOOGLE_AUTH_CLIENT_ID: string;
-    GOOGLE_AUTH_CLIENT_SECRET: string;
-    GOOGLE_APP_REDIRECT_URI: string;
-    GOOGLE_AUTH_EMAIL_SCOPE: string;
-    GOOGLE_AUTH_PROFILE_SCOPE: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
+    GOOGLE_REDIRECT_URI: string;
+    GOOGLE_EMAIL_SCOPE: string;
+    GOOGLE_PROFILE_SCOPE: string;
+    FACEBOOK_CLIENT_ID: string;
+    FACEBOOK_CLIENT_SECRET: string;
+    FACEBOOK_REDIRECT_URI: string;
     CLIENT_ORIGIN: string;
 }
 
@@ -46,11 +52,14 @@ const getConfig = (): ENV => {
         MONGO_URI: process.env.MONGO_URI,
         SESSION_SECRET: process.env.SESSION_SECRET,
         COOKIE_NAME: process.env.COOKIE_NAME,
-        GOOGLE_AUTH_CLIENT_ID: process.env.GOOGLE_AUTH_CLIENT_ID,
-        GOOGLE_AUTH_CLIENT_SECRET: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-        GOOGLE_APP_REDIRECT_URI: process.env.GOOGLE_APP_REDIRECT_URI,
-        GOOGLE_AUTH_EMAIL_SCOPE: process.env.GOOGLE_AUTH_EMAIL_SCOPE,
-        GOOGLE_AUTH_PROFILE_SCOPE: process.env.GOOGLE_AUTH_PROFILE_SCOPE,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        GOOGLE_REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+        GOOGLE_EMAIL_SCOPE: process.env.GOOGLE_EMAIL_SCOPE,
+        GOOGLE_PROFILE_SCOPE: process.env.GOOGLE_PROFILE_SCOPE,
+        FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
+        FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+        FACEBOOK_REDIRECT_URI: process.env.FACEBOOK_REDIRECT_URI,
         CLIENT_ORIGIN: process.env.CLIENT_ORIGIN,
     };
 };

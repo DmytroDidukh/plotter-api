@@ -14,8 +14,8 @@ const userSchema = new Schema<IUserModel>(
         [USER_FIELDS_NAMES.ROLE]: { type: String, default: USER_ROLES.USER },
         [USER_FIELDS_NAMES.ACCESS_TYPE]: { type: String, default: USER_ACCESS_TYPES.ACTIVE },
         [USER_FIELDS_NAMES.AUTH_TYPE]: { type: String, default: USER_AUTH_TYPES.BASIC },
-        [USER_FIELDS_NAMES.HASH]: { type: String, required: true },
-        [USER_FIELDS_NAMES.SALT]: { type: String, required: true },
+        [USER_FIELDS_NAMES.HASH]: { type: String, required: false, default: '' },
+        [USER_FIELDS_NAMES.SALT]: { type: String, required: false, default: '' },
     },
     { timestamps: true },
 );

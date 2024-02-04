@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
-import { Profile } from 'passport-google-oauth20';
+import { Profile as FacebookProfile } from 'passport-facebook';
+import { Profile as GoogleProfile } from 'passport-google-oauth20';
 import { Service } from 'typedi';
 import {
     ApiAccessDeniedError,
@@ -152,7 +153,7 @@ class AuthService {
         req: Request,
         accessToken: string,
         refreshToken: string,
-        profile: Profile,
+        profile: GoogleProfile,
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
@@ -161,6 +162,31 @@ class AuthService {
             if (!existedUser) {
                 logger.info('Google user does not exist. Creating new user');
                 const newUser = await this.userService.createGoogleUser(profile);
+
+                return done(null, newUser);
+            }
+
+            logger.info('Google user exists. Logging in');
+
+            return done(null, existedUser);
+        } catch (error) {
+            return done(error);
+        }
+    }
+
+    async verifyFacebookUser(
+        req: Request,
+        accessToken: string,
+        refreshToken: string,
+        profile: FacebookProfile,
+        done: (error: any, user?: IUserModel) => void,
+    ) {
+        try {
+            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
+
+            if (!existedUser) {
+                logger.info('Facebook user does not exist. Creating new user');
+                const newUser = await this.userService.createFacebookUser(profile);
 
                 return done(null, newUser);
             }
