@@ -39,8 +39,7 @@ class PassportConfigurator {
         passport.use(
             new LocalStrategy(
                 { usernameField: USER_FIELDS_NAMES.EMAIL_OR_USERNAME },
-                (emailOrUsername, password, done) =>
-                    this.verifyUser.call(this, emailOrUsername, password, done),
+                this.verifyUser.bind(this),
             ),
         );
     }
@@ -52,7 +51,8 @@ class PassportConfigurator {
                     clientID: config.GOOGLE_AUTH_CLIENT_ID,
                     clientSecret: config.GOOGLE_AUTH_CLIENT_SECRET,
                     callbackURL: config.GOOGLE_APP_REDIRECT_URI,
-                    scope: ['email', 'profile'],
+                    passReqToCallback: true,
+                    scope: [config.GOOGLE_AUTH_EMAIL_SCOPE, config.GOOGLE_AUTH_PROFILE_SCOPE],
                 },
                 this.verifyGoogleUser.bind(this),
             ),
@@ -115,13 +115,13 @@ class PassportConfigurator {
     }
 
     private async verifyGoogleUser(
+        req: Request,
         accessToken: string,
         refreshToken: string,
         profile: Profile,
         done: (error: any, user?: IUserModel) => void,
     ) {
         logger.info('GOOGLE USER: ', profile);
-
         try {
             const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
 

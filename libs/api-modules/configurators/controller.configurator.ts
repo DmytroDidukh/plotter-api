@@ -11,6 +11,10 @@ class ControllerConfigurator {
             try {
                 const data = await routeHandler(req, res, next);
 
+                if (res.headersSent) {
+                    return;
+                }
+
                 if (data === undefined) {
                     res.sendStatus(HTTP_STATUSES.NO_CONTENT);
                     return;
@@ -18,9 +22,7 @@ class ControllerConfigurator {
 
                 ResponseService.sendResponse(res, data);
             } catch (error) {
-                throw error;
-                // TODO: Consider handle errors
-                // next(error);
+                next(error);
             }
         } as unknown as T;
     }

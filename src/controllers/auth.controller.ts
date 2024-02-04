@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import passport from 'passport';
 import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
@@ -17,8 +18,8 @@ class AuthController {
         return this.authService.signIn(req, res, next);
     }
 
-    async googleAuth(req: Request): Promise<IUserDto> {
-        return this.authService.googleAuth(req);
+    async googleAuth(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return passport.authenticate('google')(req, res, next);
     }
 
     async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {

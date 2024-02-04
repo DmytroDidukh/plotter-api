@@ -2,7 +2,7 @@ import { Profile } from 'passport-google-oauth20';
 import { Service } from 'typedi';
 import { ApiAccessDeniedError } from '@api-modules/errors';
 
-import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
+import { USER_ACCESS_TYPES, USER_AUTH_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
 import { PasswordService } from 'services/password.service';
 import {
@@ -48,7 +48,12 @@ class UserService {
             originId: profile.id,
             email: profile.emails[0].value,
             username: profile.displayName,
+            firstName: profile.name?.givenName,
+            lastName: profile.name?.familyName,
             profilePicture: profile.photos[0].value,
+            authType: USER_AUTH_TYPES.GOOGLE,
+            hash: '1',
+            salt: '2',
         });
     }
 

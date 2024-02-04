@@ -54,7 +54,6 @@ class AuthService {
     }
 
     async signIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
-        console.log('signIn', req.body);
         return await new Promise((resolve, reject) => {
             passport.authenticate('local', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 if (err || !user) {
@@ -72,13 +71,7 @@ class AuthService {
         });
     }
 
-    googleAuth(req: Request): Promise<IUserDto> {
-        console.log('googleAuth', req.query);
-        return passport.authenticate('google', { scope: ['profile', 'email'] });
-    }
-
     async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
-        console.log('googleCallback', req.query);
         return await new Promise((resolve, reject) => {
             passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 console.log('googleCallback 2', err, user);

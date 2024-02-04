@@ -45,7 +45,12 @@ interface ICreateGoogleUserInput {
     originId: string;
     username: string;
     email: string;
+    firstName?: string;
+    lastName?: string;
     profilePicture: string;
+    authType: USER_AUTH_TYPES;
+    hash: string;
+    salt: string;
 }
 
 interface ISignUpUserInput {
