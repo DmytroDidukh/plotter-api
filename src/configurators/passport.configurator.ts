@@ -62,6 +62,7 @@ class PassportConfigurator {
         );
     }
 
+    // Retrieves the user data from the session
     private async deserializeUser(id: string, done: (error: any, user?: any) => void) {
         try {
             const user = await this.userRepository.findById(id);
@@ -71,6 +72,7 @@ class PassportConfigurator {
         }
     }
 
+    // Determines what user information should be stored in the session
     private serializeUser(user: IUserModel, done: (error: any, id?: any) => void) {
         if (user) {
             done(null, user._id);

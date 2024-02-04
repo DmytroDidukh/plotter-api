@@ -10,7 +10,6 @@ interface IUserShared {
 interface IUserBase extends IUserShared {
     firstName?: string;
     lastName?: string;
-    birthDate?: string;
     profilePicture?: string;
     accessType?: USER_ACCESS_TYPES;
     role?: USER_ROLES;
@@ -30,13 +29,12 @@ interface IUserDto extends IUserBase {
     updatedAt: string;
 }
 
-interface ISignUpUserDto extends IUserShared {
+interface ISignUpUserInput extends IUserShared {
     password: string;
     passwordConfirmation: string;
 }
 
 // TODO: add "email" and "username"
-interface IUpdateUserDto
-    extends Pick<IUserDto, 'firstName' | 'lastName' | 'birthDate' | 'profilePicture'> {}
+interface IUpdateUserInput extends Pick<IUserDto, 'firstName' | 'lastName' | 'profilePicture'> {}
 
-export { IUserModel, IUserDto, ISignUpUserDto, IUpdateUserDto };
+export { IUserModel, IUserDto, ISignUpUserInput, IUpdateUserInput };

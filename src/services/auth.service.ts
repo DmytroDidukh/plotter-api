@@ -8,9 +8,10 @@ import {
 } from '@api-modules/errors';
 
 import { UserRepository } from 'repositories/user.repository';
-import { ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces';
+import { ISignUpUserInput, IUserDto, IUserModel } from 'types/interfaces';
 
 // It's important to import the services with relative paths due "typedi" dependency injection order
+import { CookieService } from './cookie.service';
 import { PasswordService } from './password.service';
 import { UserService } from './user.service';
 
@@ -24,10 +25,11 @@ class AuthService {
         private readonly userRepository: UserRepository,
         private readonly userService: UserService,
         private readonly passwordService: PasswordService,
+        private readonly cookieService: CookieService,
     ) {}
 
     async signUp(req: Request): Promise<IUserDto> {
-        const user: ISignUpUserDto = req.body;
+        const user: ISignUpUserInput = req.body;
         const existedUser = await this.userRepository.findByUsernameOrEmail({
             email: user.email,
             username: user.username,
@@ -78,12 +80,13 @@ class AuthService {
         });
     }
 
-    async signOut(req: Request): Promise<IResponseMessage> {
+    async signOut(req: Request, res: Response): Promise<IResponseMessage> {
         return await new Promise((resolve, reject) => {
             req.session.destroy((err) => {
                 if (err) {
                     reject(err);
                 }
+                res.clearCookie(this.cookieService.getName());
 
                 resolve({ message: 'You have been signed out' });
             });

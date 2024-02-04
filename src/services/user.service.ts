@@ -3,7 +3,7 @@ import { ApiAccessDeniedError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
-import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
+import { IUpdateUserInput, IUserDto, IUserModel } from 'types/interfaces/user';
 
 interface IVerifyAccessTypeResult {
     isAllowed: boolean;
@@ -22,7 +22,7 @@ class UserService {
     async updateMe(
         currentUserId: string,
         targetUserId: string,
-        data: IUpdateUserDto,
+        data: IUpdateUserInput,
     ): Promise<IUserDto> {
         const user = await this.userRepository.findByIdOrFail(targetUserId);
 
@@ -31,7 +31,10 @@ class UserService {
             throw new ApiAccessDeniedError({ message: 'User can update only own data' });
         }
 
-        const updatedUser = await this.userRepository.updateOne<IUpdateUserDto>(targetUserId, data);
+        const updatedUser = await this.userRepository.updateOne<IUpdateUserInput>(
+            targetUserId,
+            data,
+        );
 
         return this.mapModelToDto(updatedUser);
     }
@@ -77,7 +80,6 @@ class UserService {
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
-            birthDate: user.birthDate,
             profilePicture: user.profilePicture,
             accessType: user.accessType,
             role: user.role,

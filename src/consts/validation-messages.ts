@@ -12,7 +12,6 @@ const USER_VALIDATION_ERROR_MESSAGES = {
     ACCESS_TYPE_INVALID: 'Invalid access type provided',
     USER_ID_INVALID: 'Invalid user ID',
     USERNAME_TYPE: 'Username must be a string',
-    BIRTH_DATE_FORMAT: 'Birth date must be a valid ISO 8601 date',
     PROFILE_PICTURE_FORMAT: 'Profile picture must be a URL',
     FIRST_NAME: 'First name must be a string',
     LAST_NAME: 'Last name must be a string',

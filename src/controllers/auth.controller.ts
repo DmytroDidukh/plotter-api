@@ -17,8 +17,8 @@ class AuthController {
         return this.authService.signIn(req, res, next);
     }
 
-    async signOut(req: Request): Promise<IResponseMessage> {
-        return this.authService.signOut(req);
+    async signOut(req: Request, res: Response): Promise<IResponseMessage> {
+        return this.authService.signOut(req, res);
     }
 }
 

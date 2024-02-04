@@ -17,7 +17,7 @@ async function authorizationMiddleware(req: Request, res: Response, next: NextFu
 
     const accessTypeVerificationResult = userService.verifyAccessType(user.accessType);
     if (!accessTypeVerificationResult.isAllowed) {
-        await authService.signOut(req);
+        await authService.signOut(req, res);
 
         throw new ApiAccessDeniedError({
             message: `Your account is ${accessTypeVerificationResult.status}`,

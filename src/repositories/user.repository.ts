@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 
 import { UserModel } from 'models/user.model';
-import { ISignUpUserDto, IUserModel } from 'types/interfaces/user';
+import { ISignUpUserInput, IUserModel } from 'types/interfaces/user';
 
 import { BasicRepository } from './basic.repository';
 
@@ -17,7 +17,7 @@ class UserRepository extends BasicRepository<IUserModel> {
         return UserModel.findOne({ email }).lean();
     }
 
-    findByUsernameOrEmail(user: Partial<ISignUpUserDto>): Promise<IUserModel | null> {
+    findByUsernameOrEmail(user: Partial<ISignUpUserInput>): Promise<IUserModel | null> {
         return UserModel.findOne({
             $or: [{ email: user.email }, { username: user.username }],
         }).lean();

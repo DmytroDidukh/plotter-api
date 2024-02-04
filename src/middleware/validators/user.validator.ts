@@ -35,10 +35,6 @@ class UserValidator extends BasicValidator {
             .notEmpty()
             .isString()
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.LAST_NAME),
-        body(USER_FIELDS_NAMES.BIRTH_DATE)
-            .optional()
-            .isISO8601()
-            .withMessage(USER_VALIDATION_ERROR_MESSAGES.BIRTH_DATE_FORMAT),
         body(USER_FIELDS_NAMES.PROFILE_PICTURE)
             .optional()
             .custom((value) => {
@@ -49,7 +45,6 @@ class UserValidator extends BasicValidator {
             USER_FIELDS_NAMES.USERNAME,
             USER_FIELDS_NAMES.FIRST_NAME,
             USER_FIELDS_NAMES.LAST_NAME,
-            USER_FIELDS_NAMES.BIRTH_DATE,
             USER_FIELDS_NAMES.PROFILE_PICTURE,
         ]),
     ];

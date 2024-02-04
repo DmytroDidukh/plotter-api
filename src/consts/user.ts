@@ -19,7 +19,6 @@ enum USER_FIELDS_NAMES {
     LAST_NAME = 'lastName',
     PASSWORD = 'password',
     PASSWORD_CONFIRMATION = 'passwordConfirmation',
-    BIRTH_DATE = 'birthDate',
     PROFILE_PICTURE = 'profilePicture',
     ACCESS_TYPE = 'accessType',
     ROLE = 'role',

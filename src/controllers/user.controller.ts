@@ -3,7 +3,7 @@ import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
 
 import { IResponseDateMessage, UserService } from 'services/index';
-import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
+import { IUpdateUserInput, IUserDto, IUserModel } from 'types/interfaces/user';
 
 @Service()
 class UserController {
@@ -19,7 +19,7 @@ class UserController {
         const currentUserId = UserService.getIdFromModel(req.user as IUserModel);
         const targetUserId = req.params.id as string;
 
-        const data = req.body as IUpdateUserDto;
+        const data = req.body as IUpdateUserInput;
 
         return this.userService.updateMe(currentUserId, targetUserId, data);
     }

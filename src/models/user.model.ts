@@ -7,10 +7,9 @@ const userSchema = new Schema<IUserModel>(
     {
         [USER_FIELDS_NAMES.USERNAME]: { type: String, required: true, unique: true },
         [USER_FIELDS_NAMES.EMAIL]: { type: String, required: true, unique: true },
-        [USER_FIELDS_NAMES.FIRST_NAME]: { type: String, required: false },
-        [USER_FIELDS_NAMES.LAST_NAME]: { type: String, required: false },
-        [USER_FIELDS_NAMES.BIRTH_DATE]: { type: String, default: '' },
-        [USER_FIELDS_NAMES.PROFILE_PICTURE]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.FIRST_NAME]: { type: String, required: false, default: '' },
+        [USER_FIELDS_NAMES.LAST_NAME]: { type: String, required: false, default: '' },
+        [USER_FIELDS_NAMES.PROFILE_PICTURE]: { type: String, required: false, default: '' },
         [USER_FIELDS_NAMES.ACCESS_TYPE]: { type: String, default: USER_ACCESS_TYPES.ACTIVE },
         [USER_FIELDS_NAMES.ROLE]: { type: String, default: USER_ROLES.USER },
         [USER_FIELDS_NAMES.HASH]: { type: String, required: true },
