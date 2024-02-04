@@ -7,6 +7,7 @@ import {
     ApiSignInCredentialsError,
 } from '@api-modules/errors';
 
+import config from 'config/config';
 import { UserRepository } from 'repositories/user.repository';
 import { ISignUpUserInput, IUserDto, IUserModel } from 'types/interfaces';
 
@@ -59,7 +60,7 @@ class AuthService {
                 if (err || !user) {
                     reject(err);
                 }
-                console.log('user', user);
+
                 req.login(user, (err) => {
                     if (err) {
                         reject(err);
@@ -72,19 +73,18 @@ class AuthService {
     }
 
     async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
-        return await new Promise((resolve, reject) => {
+        return await new Promise((_, reject) => {
             passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
-                console.log('googleCallback 2', err, user);
                 if (err || !user) {
                     reject(err);
                 }
-                console.log('googleCallback 3', user);
+
                 req.login(user, (err) => {
                     if (err) {
                         reject(err);
                     }
 
-                    resolve(this.userService.mapModelToDto(user));
+                    res.redirect(config.CLIENT_ORIGIN);
                 });
             })(req, res, next);
         });

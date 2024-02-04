@@ -61,7 +61,6 @@ class PassportConfigurator {
 
     // Retrieves the user data from the session
     private async deserializeUser(id: string, done: (error: any, user?: any) => void) {
-        console.log('deserializeUser', id);
         try {
             const user = await this.userRepository.findById(id);
             done(null, user);
@@ -72,7 +71,6 @@ class PassportConfigurator {
 
     // Determines what user information should be stored in the session
     private serializeUser(user: IUserModel, done: (error: any, id?: any) => void) {
-        console.log('serializeUser', user);
         if (user) {
             done(null, user._id);
         }
@@ -84,7 +82,6 @@ class PassportConfigurator {
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
-            console.log('verifyUser', emailOrUsername, password);
             const user = await this.userRepository.findByUsernameOrEmail({
                 email: emailOrUsername,
                 username: emailOrUsername,
@@ -121,15 +118,17 @@ class PassportConfigurator {
         profile: Profile,
         done: (error: any, user?: IUserModel) => void,
     ) {
-        logger.info('GOOGLE USER: ', profile);
         try {
             const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
 
             if (!existedUser) {
+                logger.info('Google user does not exist. Creating new user');
                 const newUser = await this.userService.createGoogleUser(profile);
 
                 return done(null, newUser);
             }
+
+            logger.info('Google user exists. Logging in');
 
             return done(null, existedUser);
         } catch (error) {

@@ -20,6 +20,7 @@ interface ENV {
     GOOGLE_APP_REDIRECT_URI: string | undefined;
     GOOGLE_AUTH_EMAIL_SCOPE: string | undefined;
     GOOGLE_AUTH_PROFILE_SCOPE: string | undefined;
+    CLIENT_ORIGIN: string | undefined;
 }
 
 interface Config {
@@ -33,6 +34,7 @@ interface Config {
     GOOGLE_APP_REDIRECT_URI: string;
     GOOGLE_AUTH_EMAIL_SCOPE: string;
     GOOGLE_AUTH_PROFILE_SCOPE: string;
+    CLIENT_ORIGIN: string;
 }
 
 // Loading process.env as ENV interface
@@ -49,6 +51,7 @@ const getConfig = (): ENV => {
         GOOGLE_APP_REDIRECT_URI: process.env.GOOGLE_APP_REDIRECT_URI,
         GOOGLE_AUTH_EMAIL_SCOPE: process.env.GOOGLE_AUTH_EMAIL_SCOPE,
         GOOGLE_AUTH_PROFILE_SCOPE: process.env.GOOGLE_AUTH_PROFILE_SCOPE,
+        CLIENT_ORIGIN: process.env.CLIENT_ORIGIN,
     };
 };
 

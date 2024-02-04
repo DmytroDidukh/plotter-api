@@ -11,7 +11,6 @@ class UserController {
 
     async myProfile(req: Request): Promise<IUserDto> {
         const user = req.user as IUserModel;
-
         return this.userService.mapModelToDto(user);
     }
 
