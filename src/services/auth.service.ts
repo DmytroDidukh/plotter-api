@@ -82,7 +82,7 @@ class AuthService {
         });
     }
 
-    async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
         return await new Promise((_, reject) => {
             passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 if (err || !user) {

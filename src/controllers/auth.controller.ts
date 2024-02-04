@@ -22,8 +22,8 @@ class AuthController {
         return passport.authenticate('google')(req, res, next);
     }
 
-    async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
-        return this.authService.googleCallback(req, res, next);
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+        return this.authService.googleSignIn(req, res, next);
     }
 
     async signOut(req: Request, res: Response): Promise<IResponseMessage> {
