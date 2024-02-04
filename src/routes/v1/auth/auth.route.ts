@@ -26,6 +26,14 @@ routeConfigurator.registerRoute(
     authController.signIn,
 );
 
+// GOOGLE AUTH
+routeConfigurator.registerRoute(HTTP_METHODS.GET, '/google', authController.googleAuth);
+routeConfigurator.registerRoute(
+    HTTP_METHODS.GET,
+    '/google/callback',
+    authController.googleCallback,
+);
+
 // SIGN-OUT
 routeConfigurator.registerRoute(
     HTTP_METHODS.POST,

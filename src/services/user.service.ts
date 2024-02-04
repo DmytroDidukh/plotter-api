@@ -1,9 +1,18 @@
+import { Profile } from 'passport-google-oauth20';
 import { Service } from 'typedi';
 import { ApiAccessDeniedError } from '@api-modules/errors';
 
 import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'consts/user';
 import { UserRepository } from 'repositories/user.repository';
-import { IUpdateUserInput, IUserDto, IUserModel } from 'types/interfaces/user';
+import { PasswordService } from 'services/password.service';
+import {
+    ICreateGoogleUserInput,
+    ICreateUserInput,
+    ISignUpUserInput,
+    IUpdateUserInput,
+    IUserDto,
+    IUserModel,
+} from 'types/interfaces/user';
 
 interface IVerifyAccessTypeResult {
     isAllowed: boolean;
@@ -17,7 +26,31 @@ export interface IResponseDateMessage {
 
 @Service()
 class UserService {
-    constructor(private readonly userRepository: UserRepository) {}
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly passwordService: PasswordService,
+    ) {}
+
+    async createUser(user: ISignUpUserInput): Promise<IUserModel> {
+        const passwordHash = await this.passwordService.hash(user.password);
+        const salt = await this.passwordService.getSalt();
+
+        return this.userRepository.create<ICreateUserInput>({
+            username: user.username,
+            email: user.email,
+            hash: passwordHash,
+            salt,
+        });
+    }
+
+    async createGoogleUser(profile: Profile): Promise<IUserModel> {
+        return this.userRepository.create<ICreateGoogleUserInput>({
+            originId: profile.id,
+            email: profile.emails[0].value,
+            username: profile.displayName,
+            profilePicture: profile.photos[0].value,
+        });
+    }
 
     async updateMe(
         currentUserId: string,
@@ -76,13 +109,15 @@ class UserService {
     mapModelToDto(user: IUserModel): IUserDto {
         return {
             id: user._id.toString(),
+            originId: user.originId,
             email: user.email,
             username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             profilePicture: user.profilePicture,
-            accessType: user.accessType,
             role: user.role,
+            accessType: user.accessType,
+            authType: user.authType,
             createdAt: user.createdAt.toISOString(),
             updatedAt: user.updatedAt.toISOString(),
         };

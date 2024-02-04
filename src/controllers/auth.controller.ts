@@ -17,6 +17,14 @@ class AuthController {
         return this.authService.signIn(req, res, next);
     }
 
+    async googleAuth(req: Request): Promise<IUserDto> {
+        return this.authService.googleAuth(req);
+    }
+
+    async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+        return this.authService.googleCallback(req, res, next);
+    }
+
     async signOut(req: Request, res: Response): Promise<IResponseMessage> {
         return this.authService.signOut(req, res);
     }

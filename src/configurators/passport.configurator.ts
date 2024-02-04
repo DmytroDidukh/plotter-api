@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Container, Service } from 'typedi';
 import { ApiAccessDeniedError, ApiSignInCredentialsError } from '@api-modules/errors';
@@ -52,18 +52,16 @@ class PassportConfigurator {
                     clientID: config.GOOGLE_AUTH_CLIENT_ID,
                     clientSecret: config.GOOGLE_AUTH_CLIENT_SECRET,
                     callbackURL: config.GOOGLE_APP_REDIRECT_URI,
+                    scope: ['email', 'profile'],
                 },
-                async (accessToken, refreshToken, profile, done) => {
-                    logger.info('GOOGLE USER: ', profile);
-
-                    return done(null, profile);
-                },
+                this.verifyGoogleUser.bind(this),
             ),
         );
     }
 
     // Retrieves the user data from the session
     private async deserializeUser(id: string, done: (error: any, user?: any) => void) {
+        console.log('deserializeUser', id);
         try {
             const user = await this.userRepository.findById(id);
             done(null, user);
@@ -74,6 +72,7 @@ class PassportConfigurator {
 
     // Determines what user information should be stored in the session
     private serializeUser(user: IUserModel, done: (error: any, id?: any) => void) {
+        console.log('serializeUser', user);
         if (user) {
             done(null, user._id);
         }
@@ -85,6 +84,7 @@ class PassportConfigurator {
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
+            console.log('verifyUser', emailOrUsername, password);
             const user = await this.userRepository.findByUsernameOrEmail({
                 email: emailOrUsername,
                 username: emailOrUsername,
@@ -109,6 +109,29 @@ class PassportConfigurator {
             }
 
             return done(null, user);
+        } catch (error) {
+            return done(error);
+        }
+    }
+
+    private async verifyGoogleUser(
+        accessToken: string,
+        refreshToken: string,
+        profile: Profile,
+        done: (error: any, user?: IUserModel) => void,
+    ) {
+        logger.info('GOOGLE USER: ', profile);
+
+        try {
+            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
+
+            if (!existedUser) {
+                const newUser = await this.userService.createGoogleUser(profile);
+
+                return done(null, newUser);
+            }
+
+            return done(null, existedUser);
         } catch (error) {
             return done(error);
         }

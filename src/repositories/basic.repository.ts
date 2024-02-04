@@ -20,10 +20,7 @@ class BasicRepository<VModel> {
         return entity as VModel;
     }
 
-    async create(
-        data: Omit<VModel, '_id' | 'createdAt' | 'updatedAt'>,
-        options?: SaveOptions,
-    ): Promise<VModel> {
+    async create<T>(data: T, options?: SaveOptions): Promise<VModel> {
         const createdDocument = new this.model(data);
         return (await createdDocument.save(options)).toJSON() as unknown as VModel;
     }

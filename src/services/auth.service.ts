@@ -12,7 +12,6 @@ import { ISignUpUserInput, IUserDto, IUserModel } from 'types/interfaces';
 
 // It's important to import the services with relative paths due "typedi" dependency injection order
 import { CookieService } from './cookie.service';
-import { PasswordService } from './password.service';
 import { UserService } from './user.service';
 
 export interface IResponseMessage {
@@ -24,7 +23,6 @@ class AuthService {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly userService: UserService,
-        private readonly passwordService: PasswordService,
         private readonly cookieService: CookieService,
     ) {}
 
@@ -42,14 +40,7 @@ class AuthService {
             });
         }
 
-        const passwordHash = await this.passwordService.hash(user.password);
-        const salt = await this.passwordService.getSalt();
-        const newUser = await this.userRepository.create({
-            username: user.username,
-            email: user.email,
-            hash: passwordHash,
-            salt,
-        });
+        const newUser = await this.userService.createUser(user);
 
         return await new Promise((resolve, reject) => {
             req.login(newUser, (err) => {
@@ -63,12 +54,38 @@ class AuthService {
     }
 
     async signIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+        console.log('signIn', req.body);
         return await new Promise((resolve, reject) => {
             passport.authenticate('local', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 if (err || !user) {
                     reject(err);
                 }
+                console.log('user', user);
+                req.login(user, (err) => {
+                    if (err) {
+                        reject(err);
+                    }
 
+                    resolve(this.userService.mapModelToDto(user));
+                });
+            })(req, res, next);
+        });
+    }
+
+    googleAuth(req: Request): Promise<IUserDto> {
+        console.log('googleAuth', req.query);
+        return passport.authenticate('google', { scope: ['profile', 'email'] });
+    }
+
+    async googleCallback(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+        console.log('googleCallback', req.query);
+        return await new Promise((resolve, reject) => {
+            passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
+                console.log('googleCallback 2', err, user);
+                if (err || !user) {
+                    reject(err);
+                }
+                console.log('googleCallback 3', user);
                 req.login(user, (err) => {
                     if (err) {
                         reject(err);

@@ -11,8 +11,15 @@ enum USER_ROLES {
     SUPER_ADMIN = 'SUPER_ADMIN',
 }
 
+enum USER_AUTH_TYPES {
+    BASIC = 'BASIC',
+    GOOGLE = 'GOOGLE',
+    FACEBOOK = 'FACEBOOK',
+}
+
 enum USER_FIELDS_NAMES {
     ID = 'id',
+    ORIGIN_ID = 'originId', // For non-basic auth
     EMAIL = 'email',
     USERNAME = 'username',
     FIRST_NAME = 'firstName',
@@ -22,9 +29,10 @@ enum USER_FIELDS_NAMES {
     PROFILE_PICTURE = 'profilePicture',
     ACCESS_TYPE = 'accessType',
     ROLE = 'role',
+    AUTH_TYPE = 'authType',
     EMAIL_OR_USERNAME = 'emailOrUsername',
     HASH = 'hash',
     SALT = 'salt',
 }
 
-export { USER_ACCESS_TYPES, USER_ROLES, USER_FIELDS_NAMES };
+export { USER_ACCESS_TYPES, USER_ROLES, USER_AUTH_TYPES, USER_FIELDS_NAMES };
