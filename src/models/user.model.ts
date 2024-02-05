@@ -6,8 +6,8 @@ import { IUserModel } from 'types/interfaces/user';
 const userSchema = new Schema<IUserModel>(
     {
         [USER_FIELDS_NAMES.ORIGIN_ID]: { type: String, required: false, unique: true, default: '' },
-        [USER_FIELDS_NAMES.USERNAME]: { type: String, required: true, unique: true },
-        [USER_FIELDS_NAMES.EMAIL]: { type: String, required: true, unique: true },
+        [USER_FIELDS_NAMES.USERNAME]: { type: String, required: true, unique: false },
+        [USER_FIELDS_NAMES.EMAIL]: { type: String, required: false, unique: true },
         [USER_FIELDS_NAMES.FIRST_NAME]: { type: String, required: false, default: '' },
         [USER_FIELDS_NAMES.LAST_NAME]: { type: String, required: false, default: '' },
         [USER_FIELDS_NAMES.PROFILE_PICTURE]: { type: String, required: false, default: '' },

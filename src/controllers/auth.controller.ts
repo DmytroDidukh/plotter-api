@@ -22,8 +22,16 @@ class AuthController {
         return passport.authenticate('google')(req, res, next);
     }
 
-    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
         return this.authService.googleSignIn(req, res, next);
+    }
+
+    async facebookAuth(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return passport.authenticate('facebook')(req, res, next);
+    }
+
+    async facebookSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+        return this.authService.facebookSignIn(req, res, next);
     }
 
     async signOut(req: Request, res: Response): Promise<IResponseMessage> {

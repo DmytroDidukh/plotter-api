@@ -67,6 +67,7 @@ class PassportConfigurator {
                     clientSecret: config.FACEBOOK_CLIENT_SECRET,
                     callbackURL: config.FACEBOOK_REDIRECT_URI,
                     passReqToCallback: true,
+                    scope: ['email', 'public_profile'],
                 },
                 this.authService.verifyFacebookUser,
             ),

@@ -54,7 +54,7 @@ interface ICreateGoogleUserInput {
 interface ICreateFacebookUserInput {
     originId: string;
     username: string;
-    email: string;
+    email?: string;
     firstName?: string;
     lastName?: string;
     profilePicture: string;

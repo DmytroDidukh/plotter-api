@@ -22,6 +22,13 @@ class UserRepository extends BasicRepository<IUserModel> {
             $or: [{ email: user.email }, { username: user.username }],
         }).lean();
     }
+
+    async findByOriginId(originId: string): Promise<IUserModel | null> {
+        console.log('originId', originId);
+        const user = await UserModel.findOne({ originId }).lean();
+        console.log('fetch user', user);
+        return user;
+    }
 }
 
 export { UserRepository };

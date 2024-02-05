@@ -60,11 +60,11 @@ class UserService {
     async createFacebookUser(profile: FacebookProfile): Promise<IUserModel> {
         return this.userRepository.create<ICreateFacebookUserInput>({
             originId: profile.id,
-            email: profile.emails[0].value,
+            email: profile.emails?.[0]?.value,
             username: profile.displayName,
             firstName: profile.name?.givenName,
             lastName: profile.name?.familyName,
-            profilePicture: profile.photos[0].value,
+            profilePicture: profile.photos?.[0]?.value,
             authType: USER_AUTH_TYPES.FACEBOOK,
         });
     }

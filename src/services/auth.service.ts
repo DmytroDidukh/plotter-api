@@ -36,6 +36,7 @@ class AuthService {
     ) {
         this.verifyUser = this.verifyUser.bind(this);
         this.verifyGoogleUser = this.verifyGoogleUser.bind(this);
+        this.verifyFacebookUser = this.verifyFacebookUser.bind(this);
     }
 
     async signUp(req: Request): Promise<IUserDto> {
@@ -83,7 +84,7 @@ class AuthService {
         });
     }
 
-    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
         return await new Promise((_, reject) => {
             passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 if (err || !user) {
@@ -95,9 +96,36 @@ class AuthService {
                         reject(err);
                     }
 
-                    res.redirect(config.CLIENT_ORIGIN);
+                    if (!res.headersSent) {
+                        res.redirect(config.CLIENT_ORIGIN);
+                    }
                 });
             })(req, res, next);
+        });
+    }
+
+    async facebookSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+        return await new Promise((_, reject) => {
+            passport.authenticate(
+                'facebook',
+                (err: ApiSignInCredentialsError, user: IUserModel) => {
+                    console.log('login user', user);
+                    if (err || !user) {
+                        reject(err);
+                    }
+
+                    req.login(user, (err) => {
+                        console.log('login user 2', user);
+                        if (err) {
+                            reject(err);
+                        }
+
+                        if (!res.headersSent) {
+                            res.redirect(config.CLIENT_ORIGIN);
+                        }
+                    });
+                },
+            )(req, res, next);
         });
     }
 
@@ -157,7 +185,7 @@ class AuthService {
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
-            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
+            const existedUser = await this.userRepository.findByOriginId(profile.id);
 
             if (!existedUser) {
                 logger.info('Google user does not exist. Creating new user');
@@ -181,9 +209,11 @@ class AuthService {
         profile: FacebookProfile,
         done: (error: any, user?: IUserModel) => void,
     ) {
+        console.log('profile', profile);
         try {
-            const existedUser = await this.userRepository.findByEmail(profile.emails[0].value);
-
+            console.log('profile', profile.id);
+            const existedUser = await this.userRepository.findByOriginId(profile.id);
+            console.log('existedUser', existedUser);
             if (!existedUser) {
                 logger.info('Facebook user does not exist. Creating new user');
                 const newUser = await this.userService.createFacebookUser(profile);
@@ -191,7 +221,7 @@ class AuthService {
                 return done(null, newUser);
             }
 
-            logger.info('Google user exists. Logging in');
+            logger.info('Facebook user exists. Logging in');
 
             return done(null, existedUser);
         } catch (error) {
