@@ -51,7 +51,7 @@ class PassportConfigurator {
                     clientID: config.GOOGLE_CLIENT_ID,
                     clientSecret: config.GOOGLE_CLIENT_SECRET,
                     callbackURL: config.GOOGLE_REDIRECT_URI,
-                    passReqToCallback: true,
+                    passReqToCallback: true, // TODO: Check if it's necessary
                     scope: [config.GOOGLE_EMAIL_SCOPE, config.GOOGLE_PROFILE_SCOPE],
                 },
                 this.authService.verifyGoogleUser,
@@ -66,8 +66,9 @@ class PassportConfigurator {
                     clientID: config.FACEBOOK_CLIENT_ID,
                     clientSecret: config.FACEBOOK_CLIENT_SECRET,
                     callbackURL: config.FACEBOOK_REDIRECT_URI,
-                    passReqToCallback: true,
-                    scope: ['email', 'public_profile'],
+                    passReqToCallback: true, // TODO: Check if it's necessary
+                    scope: ['public_profile' /* 'email'*/],
+                    profileFields: ['id', 'name', 'displayName', 'photos'],
                 },
                 this.authService.verifyFacebookUser,
             ),

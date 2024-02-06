@@ -209,11 +209,8 @@ class AuthService {
         profile: FacebookProfile,
         done: (error: any, user?: IUserModel) => void,
     ) {
-        console.log('profile', profile);
         try {
-            console.log('profile', profile.id);
             const existedUser = await this.userRepository.findByOriginId(profile.id);
-            console.log('existedUser', existedUser);
             if (!existedUser) {
                 logger.info('Facebook user does not exist. Creating new user');
                 const newUser = await this.userService.createFacebookUser(profile);

@@ -32,11 +32,15 @@ routeConfigurator.registerRoute(HTTP_METHODS.GET, '/google/callback', authContro
 
 // FACEBOOK AUTH
 routeConfigurator.registerRoute(HTTP_METHODS.GET, '/facebook', authController.facebookAuth);
-routeConfigurator.registerRoute(HTTP_METHODS.GET, '/facebook/callback', authController.facebookSignIn);
+routeConfigurator.registerRoute(
+    HTTP_METHODS.GET,
+    '/facebook/callback',
+    authController.facebookSignIn,
+);
 
 // SIGN-OUT
 routeConfigurator.registerRoute(
-    HTTP_METHODS.POST,
+    HTTP_METHODS.GET,
     '/sign-out',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     authorizationMiddleware,
