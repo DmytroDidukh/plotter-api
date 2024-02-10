@@ -5,7 +5,7 @@ import config from 'config/config';
 
 const logger = new Logger();
 
-async function setupDatabase(): Promise<mongoose.mongo.MongoClient> {
+async function initializeDatabase(): Promise<mongoose.mongo.MongoClient> {
     try {
         const m = await mongoose.connect(config.MONGO_URI);
         logger.info('DB CONNECTED');
@@ -16,4 +16,4 @@ async function setupDatabase(): Promise<mongoose.mongo.MongoClient> {
     }
 }
 
-export { setupDatabase };
+export { initializeDatabase };

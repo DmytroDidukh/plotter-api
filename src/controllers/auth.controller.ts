@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import { Container, Service } from 'typedi';
 import { ControllerConfigurator } from '@api-modules/configurators';
+import { RedirectResults } from '@api-modules/services';
 
 import { AuthService, IResponseMessage } from 'services/index';
 import { IUserDto } from 'types/interfaces';
@@ -22,7 +23,7 @@ class AuthController {
         return passport.authenticate('google')(req, res, next);
     }
 
-    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<RedirectResults> {
         return this.authService.googleSignIn(req, res, next);
     }
 
@@ -30,7 +31,11 @@ class AuthController {
         return passport.authenticate('facebook')(req, res, next);
     }
 
-    async facebookSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async facebookSignIn(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<RedirectResults> {
         return this.authService.facebookSignIn(req, res, next);
     }
 

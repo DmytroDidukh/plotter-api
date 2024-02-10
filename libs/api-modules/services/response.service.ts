@@ -13,7 +13,16 @@ class ResponseService {
         res.send({ data });
     }
 
+    static redirect(res: Response, url: string): void {
+        res.redirect(url);
+    }
+
     static sendError(res: Response, error: ApiBaseError): void {
+        if (this.isHeadersSet(res)) {
+            logger.error('Response has been sent', error);
+            return;
+        }
+
         if (this.isKnownError(error)) {
             const errorResponse = this.prepareErrorResponse(error);
 
@@ -44,6 +53,10 @@ class ResponseService {
 
     private static isKnownError(error: ApiBaseError): boolean {
         return !!(error.httpStatus && error.code && error.type && error.message);
+    }
+
+    private static isHeadersSet(res: Response): boolean {
+        return res.headersSent;
     }
 }
 

@@ -9,7 +9,7 @@ import {
     ApiInvalidAuthenticationError,
     ApiSignInCredentialsError,
 } from '@api-modules/errors';
-import { Logger } from '@api-modules/services';
+import { ErrorRedirectResult, Logger, RedirectResults } from '@api-modules/services';
 
 import config from 'config/config';
 import { UserRepository } from 'repositories/user.repository';
@@ -68,11 +68,13 @@ class AuthService {
             passport.authenticate('local', (err: ApiSignInCredentialsError, user: IUserModel) => {
                 if (err || !user) {
                     reject(err);
+                    return;
                 }
 
                 req.login(user, (err) => {
                     if (err) {
                         reject(err);
+                        return;
                     }
 
                     resolve(this.userService.mapModelToDto(user));
@@ -81,49 +83,16 @@ class AuthService {
         });
     }
 
-    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
-        return await new Promise((_, reject) => {
-            passport.authenticate('google', (err: ApiSignInCredentialsError, user: IUserModel) => {
-                if (err || !user) {
-                    reject(err);
-                }
-
-                req.login(user, (err) => {
-                    if (err) {
-                        reject(err);
-                    }
-
-                    if (!res.headersSent) {
-                        res.redirect(config.CLIENT_ORIGIN);
-                    }
-                });
-            })(req, res, next);
-        });
+    async googleSignIn(req: Request, res: Response, next: NextFunction): Promise<RedirectResults> {
+        return this.handleExternalSignIn('google', req, res, next);
     }
 
-    async facebookSignIn(req: Request, res: Response, next: NextFunction): Promise<void> {
-        return await new Promise((_, reject) => {
-            passport.authenticate(
-                'facebook',
-                (err: ApiSignInCredentialsError, user: IUserModel) => {
-                    console.log('login user', user);
-                    if (err || !user) {
-                        reject(err);
-                    }
-
-                    req.login(user, (err) => {
-                        console.log('login user 2', user);
-                        if (err) {
-                            reject(err);
-                        }
-
-                        if (!res.headersSent) {
-                            res.redirect(config.CLIENT_ORIGIN);
-                        }
-                    });
-                },
-            )(req, res, next);
-        });
+    async facebookSignIn(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<RedirectResults> {
+        return this.handleExternalSignIn('facebook', req, res, next);
     }
 
     async signOut(req: Request, res: Response): Promise<IResponseMessage> {
@@ -136,6 +105,47 @@ class AuthService {
 
                 resolve({ message: 'You have been signed out' });
             });
+        });
+    }
+
+    private handleExternalSignIn(
+        strategy: string,
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<RedirectResults> {
+        return new Promise((resolve, reject) => {
+            passport.authenticate(
+                strategy,
+                (err: ApiInvalidAuthenticationError, user: IUserModel) => {
+                    if (err) {
+                        logger.error(`${strategy} sign in error`, err);
+                        reject(new ErrorRedirectResult(`${config.CLIENT_ORIGIN}/sign-in`, err));
+                        return;
+                    } else if (!user) {
+                        logger.error(
+                            `${strategy} sign in error: user not found or permissions denied`,
+                        );
+                        reject(
+                            new ErrorRedirectResult(
+                                `${config.CLIENT_ORIGIN}/sign-in`,
+                                new ApiAccessDeniedError(),
+                                { message: 'User not found or permissions denied' },
+                            ),
+                        );
+                        return;
+                    }
+
+                    req.login(user, (err) => {
+                        if (err) {
+                            reject(new ErrorRedirectResult(`${config.CLIENT_ORIGIN}/sign-in`, err));
+                            return;
+                        }
+
+                        resolve(new RedirectResults(config.CLIENT_ORIGIN));
+                    });
+                },
+            )(req, res, next);
         });
     }
 

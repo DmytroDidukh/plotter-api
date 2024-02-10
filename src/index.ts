@@ -10,13 +10,13 @@ import { Logger } from '@api-modules/services';
 
 import config from 'config/config';
 import { passportConfigurator, sessionConfigurator } from 'configurators/index';
-import { setupDatabase } from 'db/index';
+import { initializeDatabase } from 'db/index';
 import { rootRouter } from 'routes/index';
 
 const logger = new Logger();
 
 const app: Express = express();
-const mongoClientPromise = setupDatabase();
+const mongoClientPromise = initializeDatabase();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
