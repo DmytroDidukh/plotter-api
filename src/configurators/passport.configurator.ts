@@ -38,7 +38,7 @@ class PassportConfigurator {
     private configureLocalStrategy(): void {
         passport.use(
             new LocalStrategy(
-                { usernameField: USER_FIELDS_NAMES.EMAIL_OR_USERNAME },
+                { usernameField: USER_FIELDS_NAMES.EMAIL },
                 this.authService.verifyUser,
             ),
         );
@@ -67,7 +67,7 @@ class PassportConfigurator {
                     clientSecret: config.FACEBOOK_CLIENT_SECRET,
                     callbackURL: config.FACEBOOK_REDIRECT_URI,
                     passReqToCallback: true, // TODO: Check if it's necessary
-                    scope: ['public_profile' /* 'email'*/],
+                    scope: ['public_profile', 'instagram_basic', 'pages_show_list' /* 'email'*/],
                     profileFields: ['id', 'name', 'displayName', 'photos'],
                 },
                 this.authService.verifyFacebookUser,

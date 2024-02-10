@@ -38,7 +38,6 @@ class UserService {
         const salt = await this.passwordService.getSalt();
 
         return this.userRepository.create<ICreateUserInput>({
-            username: user.username,
             email: user.email,
             hash: passwordHash,
             salt,
@@ -49,7 +48,6 @@ class UserService {
         return this.userRepository.create<ICreateGoogleUserInput>({
             originId: profile.id,
             email: profile.emails[0].value,
-            username: profile.displayName,
             firstName: profile.name?.givenName,
             lastName: profile.name?.familyName,
             profilePicture: profile.photos[0].value,
@@ -61,7 +59,6 @@ class UserService {
         return this.userRepository.create<ICreateFacebookUserInput>({
             originId: profile.id,
             email: profile.emails?.[0]?.value,
-            username: profile.displayName,
             firstName: profile.name?.givenName,
             lastName: profile.name?.familyName,
             profilePicture: profile.photos?.[0]?.value,
@@ -128,7 +125,6 @@ class UserService {
             id: user._id.toString(),
             originId: user.originId,
             email: user.email,
-            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             profilePicture: user.profilePicture,

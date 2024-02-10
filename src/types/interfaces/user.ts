@@ -5,7 +5,6 @@ import { USER_ACCESS_TYPES, USER_AUTH_TYPES, USER_ROLES } from 'consts/user';
 interface IUserModel {
     _id: Types.ObjectId;
     originId: string;
-    username: string;
     email: string;
     firstName?: string;
     lastName?: string;
@@ -22,7 +21,6 @@ interface IUserModel {
 interface IUserDto {
     id: string;
     originId: string;
-    username: string;
     email: string;
     firstName: string;
     lastName: string;
@@ -35,7 +33,6 @@ interface IUserDto {
 }
 
 interface ICreateUserInput {
-    username: string;
     email: string;
     hash: string;
     salt: string;
@@ -43,7 +40,6 @@ interface ICreateUserInput {
 
 interface ICreateGoogleUserInput {
     originId: string;
-    username: string;
     email: string;
     firstName?: string;
     lastName?: string;
@@ -53,7 +49,6 @@ interface ICreateGoogleUserInput {
 
 interface ICreateFacebookUserInput {
     originId: string;
-    username: string;
     email?: string;
     firstName?: string;
     lastName?: string;
@@ -62,7 +57,6 @@ interface ICreateFacebookUserInput {
 }
 
 interface ISignUpUserInput {
-    username: string;
     email: string;
     password: string;
     passwordConfirmation: string;

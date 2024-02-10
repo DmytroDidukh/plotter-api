@@ -21,7 +21,6 @@ enum USER_FIELDS_NAMES {
     ID = 'id',
     ORIGIN_ID = 'originId', // For non-basic auth
     EMAIL = 'email',
-    USERNAME = 'username',
     FIRST_NAME = 'firstName',
     LAST_NAME = 'lastName',
     PASSWORD = 'password',
@@ -30,7 +29,6 @@ enum USER_FIELDS_NAMES {
     ACCESS_TYPE = 'accessType',
     ROLE = 'role',
     AUTH_TYPE = 'authType',
-    EMAIL_OR_USERNAME = 'emailOrUsername',
     HASH = 'hash',
     SALT = 'salt',
 }

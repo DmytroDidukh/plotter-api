@@ -7,12 +7,6 @@ import { BasicValidator } from './basic.validator';
 class AuthValidator extends BasicValidator {
     static signUpSchema: ValidationChain[] = [
         body(USER_FIELDS_NAMES.EMAIL).isEmail().withMessage(USER_VALIDATION_ERROR_MESSAGES.EMAIL),
-        body(USER_FIELDS_NAMES.USERNAME)
-            .notEmpty()
-            .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_EMPTY)
-            .bail()
-            .isLength({ min: 2, max: 50 })
-            .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_INVALID),
         body(USER_FIELDS_NAMES.PASSWORD)
             .notEmpty()
             // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,24}$/)
@@ -25,23 +19,20 @@ class AuthValidator extends BasicValidator {
         }),
         ...this.createNotAllowedBodySchema([
             USER_FIELDS_NAMES.EMAIL,
-            USER_FIELDS_NAMES.USERNAME,
             USER_FIELDS_NAMES.PASSWORD,
             USER_FIELDS_NAMES.PASSWORD_CONFIRMATION,
         ]),
     ];
 
     static signInSchema: ValidationChain[] = [
-        body(USER_FIELDS_NAMES.EMAIL_OR_USERNAME)
+        body(USER_FIELDS_NAMES.EMAIL)
             .notEmpty()
-            .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_OR_EMAIL_EMPTY),
+            .isEmail()
+            .withMessage(USER_VALIDATION_ERROR_MESSAGES.EMAIL),
         body(USER_FIELDS_NAMES.PASSWORD)
             .notEmpty()
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.PASSWORD_EMPTY),
-        ...this.createNotAllowedBodySchema([
-            USER_FIELDS_NAMES.EMAIL_OR_USERNAME,
-            USER_FIELDS_NAMES.PASSWORD,
-        ]),
+        ...this.createNotAllowedBodySchema([USER_FIELDS_NAMES.EMAIL, USER_FIELDS_NAMES.PASSWORD]),
     ];
 }
 

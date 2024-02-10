@@ -41,15 +41,12 @@ class AuthService {
 
     async signUp(req: Request): Promise<IUserDto> {
         const user: ISignUpUserInput = req.body;
-        const existedUser = await this.userRepository.findByUsernameOrEmail({
-            email: user.email,
-            username: user.username,
-        });
+        const existedUser = await this.userRepository.findByEmail(user.email);
 
         if (existedUser) {
             throw new ApiConflictError({
                 resourceName: 'user',
-                resourceId: user.email === existedUser.email ? user.email : user.username,
+                resourceId: user.email,
             });
         }
 
@@ -143,15 +140,12 @@ class AuthService {
     }
 
     async verifyUser(
-        emailOrUsername: string,
+        email: string,
         password: string,
         done: (error: any, user?: IUserModel) => void,
     ) {
         try {
-            const user = await this.userRepository.findByUsernameOrEmail({
-                email: emailOrUsername,
-                username: emailOrUsername,
-            });
+            const user = await this.userRepository.findByEmail(email);
 
             if (!user) {
                 return done(new ApiSignInCredentialsError());

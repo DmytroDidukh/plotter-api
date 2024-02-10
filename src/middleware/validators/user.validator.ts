@@ -21,10 +21,6 @@ class UserValidator extends BasicValidator {
         param(USER_FIELDS_NAMES.ID)
             .isMongoId()
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.USER_ID_INVALID),
-        body(USER_FIELDS_NAMES.USERNAME)
-            .optional()
-            .isString()
-            .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_TYPE),
         body(USER_FIELDS_NAMES.FIRST_NAME)
             .optional()
             .notEmpty()
@@ -42,7 +38,6 @@ class UserValidator extends BasicValidator {
             })
             .withMessage(USER_VALIDATION_ERROR_MESSAGES.PROFILE_PICTURE_FORMAT),
         ...this.createNotAllowedBodySchema([
-            USER_FIELDS_NAMES.USERNAME,
             USER_FIELDS_NAMES.FIRST_NAME,
             USER_FIELDS_NAMES.LAST_NAME,
             USER_FIELDS_NAMES.PROFILE_PICTURE,
